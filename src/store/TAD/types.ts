@@ -6,4 +6,5 @@ export interface IStateTAD {
 export interface ITAD {
   name: string;
   value: string;
+  component: string;
 }
