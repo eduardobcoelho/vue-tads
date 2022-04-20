@@ -1,5 +1,8 @@
 <template>
-  <router-view />
+  <n-config-provider :theme-overrides="{ primaryColor: '#add8e6' }">
+    <router-view />
+    <n-global-style />
+  </n-config-provider>
 </template>
 
 <style lang="scss">

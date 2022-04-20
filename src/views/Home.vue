@@ -23,7 +23,7 @@
   .app-home {
     min-height: 100vh;
     width: 100%;
-    background-color: lightblue;
+    background-color: #add8e6;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -1,8 +1,8 @@
 import { createStore } from 'vuex';
+import TADModule from './TAD';
 
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  modules: {
+    TAD: TADModule,
+  },
 });
