@@ -6,6 +6,7 @@
       type="info"
       :key="TAD.value"
       class="tad-selector__button"
+      @click="goToTadView(TAD)"
     >
       {{ TAD.name }}
     </n-button>
@@ -15,13 +16,21 @@
 <script lang="ts">
   import { defineComponent, computed } from 'vue';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
+  import { ITAD } from '@/store/TAD/types';
 
   export default defineComponent({
     name: 'TadSelector',
     setup() {
       const store = useStore();
+      const router = useRouter();
+      const goToTadView = (TAD: ITAD): void => {
+        store.commit('setCurrentTad', TAD);
+        router.push({ name: 'TAD' });
+      };
       return {
-        TADS: computed(() => store.getters.TADS),
+        TADS: computed<ITAD[]>(() => store.getters.TADS),
+        goToTadView,
       };
     },
   });

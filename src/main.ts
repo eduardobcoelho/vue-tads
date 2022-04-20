@@ -5,5 +5,12 @@ import router from './router';
 import store from './store';
 import NaiveUI from 'naive-ui';
 import './assets/scss/index.scss';
+import globalComponents from './globalComponents';
 
-createApp(App).use(store).use(router).use(NaiveUI).mount('#app');
+const app = createApp(App).use(store).use(router).use(NaiveUI);
+
+// set global components
+globalComponents.map((component) => {
+  app.component(component.name, component.SFC);
+});
+app.mount('#app');
