@@ -3,7 +3,6 @@
     <n-button
       v-for="TAD in TADS"
       strong
-      type="info"
       :key="TAD.value"
       class="tad-selector__button"
       @click="goToTadView(TAD)"

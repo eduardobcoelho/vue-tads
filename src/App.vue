@@ -1,8 +1,7 @@
 <template>
-  <n-config-provider :theme-overrides="{ primaryColor: '#add8e6' }">
+  <main id="app-main tad-default-box">
     <router-view />
-    <n-global-style />
-  </n-config-provider>
+  </main>
 </template>
 
 <style lang="scss">
@@ -14,16 +13,7 @@
     color: #2c3e50;
   }
 
-  #nav {
-    padding: 30px;
-
-    a {
-      font-weight: bold;
-      color: #2c3e50;
-
-      &.router-link-exact-active {
-        color: #42b983;
-      }
-    }
+  #app-main {
+    background-color: #f2f2f2;
   }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-home">
+  <div class="app-home tad-default-box">
     <h1>Selecione o TAD</h1>
     <div>
       <tad-selector></tad-selector>
@@ -21,9 +21,6 @@
 
 <style lang="scss">
   .app-home {
-    min-height: 100vh;
-    width: 100%;
-    background-color: #add8e6;
     display: flex;
     flex-direction: column;
     justify-content: center;
