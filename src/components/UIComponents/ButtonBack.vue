@@ -6,16 +6,7 @@
   </div>
 </template>
 
-<script>
-  import { defineComponent } from 'vue';
+<script lang="ts" setup>
   import { useRouter } from 'vue-router';
-
-  export default defineComponent({
-    name: 'ButtonBack',
-    setup() {
-      return {
-        router: useRouter(),
-      };
-    },
-  });
+  const router = useRouter();
 </script>

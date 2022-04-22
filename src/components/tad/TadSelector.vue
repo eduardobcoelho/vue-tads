@@ -2,7 +2,8 @@
   <div class="tad-selector">
     <n-button
       v-for="TAD in TADS"
-      strong
+      dashed
+      type="primary"
       :key="TAD.value"
       class="tad-selector__button"
       @click="goToTadView(TAD)"
@@ -12,27 +13,20 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+  import { computed } from 'vue';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
   import { ITAD } from '@/store/TAD/types';
 
-  export default defineComponent({
-    name: 'TadSelector',
-    setup() {
-      const store = useStore();
-      const router = useRouter();
-      const goToTadView = (TAD: ITAD): void => {
-        store.commit('setCurrentTad', TAD);
-        router.push({ name: 'TAD' });
-      };
-      return {
-        TADS: computed<ITAD[]>(() => store.getters.TADS),
-        goToTadView,
-      };
-    },
-  });
+  const store = useStore();
+  const router = useRouter();
+
+  let TADS = computed<ITAD[]>(() => store.getters.TADS);
+  const goToTadView = (TAD: ITAD): void => {
+    store.commit('setCurrentTad', TAD);
+    router.push({ name: 'TAD' });
+  };
 </script>
 
 <style lang="scss">

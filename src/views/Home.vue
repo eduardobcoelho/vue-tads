@@ -7,16 +7,8 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
+<script setup>
   import TadSelector from '@/components/tad/TadSelector.vue';
-
-  export default defineComponent({
-    name: 'Home',
-    components: {
-      TadSelector,
-    },
-  });
 </script>
 
 <style lang="scss">
