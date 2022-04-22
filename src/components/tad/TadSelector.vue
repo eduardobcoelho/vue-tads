@@ -23,10 +23,10 @@
   const router = useRouter();
 
   let TADS = computed<ITAD[]>(() => store.getters.TADS);
-  const goToTadView = (TAD: ITAD): void => {
+  function goToTadView(TAD: ITAD): void {
     store.commit('setCurrentTad', TAD);
     router.push({ name: 'TAD' });
-  };
+  }
 </script>
 
 <style lang="scss">
