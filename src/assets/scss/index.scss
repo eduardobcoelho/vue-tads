@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+// classes
 .tad-default-box {
   min-height: 100vh;
   width: 100%;
@@ -14,4 +15,46 @@
   position: fixed;
   top: 15px;
   left: 15px;
+}
+
+// animations
+.shake {
+  animation: tilt-shaking 0.3s infinite !important;
+}
+
+.shake__pop {
+  border: 1px solid red !important;
+  color: red;
+}
+
+.shake__top {
+  border: 1px solid #70c0e8 !important;
+  color: #70c0e8;
+}
+
+@keyframes tilt-shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

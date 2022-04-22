@@ -7,11 +7,7 @@
     >
       {{ element }}
     </li>
-    <li
-      id="tad-stack__empty-list"
-      style="border: none"
-      v-show="!elements.length"
-    >
+    <li id="tad-stack__empty-list" style="border: none" v-if="!elements.length">
       <span>Nenhum elemento foi adicionado!</span>
     </li>
   </ul>
@@ -30,8 +26,10 @@
       padding: 6px 12px;
       border: 1px solid #18a058;
       border-radius: 8px;
-      margin-top: 14px;
-      transition: all 0.2s ease-in;
+      margin-top: 18px;
+      &:not(#tad-stack__empty-list) {
+        animation: fade-in 0.7s;
+      }
     }
   }
 

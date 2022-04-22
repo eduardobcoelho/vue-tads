@@ -2,11 +2,11 @@
   <ButtonBack></ButtonBack>
   <div class="tad-stack tad-default-box">
     <h1>Pilha</h1>
-    <p>Digite um valor abaixo e clique em adicionar:</p>
     <TadStackInput
       :isEmpty="!elements.length"
       @push="push"
-      @pop="pop"
+      @pop="popOrTop('pop')"
+      @top="popOrTop('top')"
     ></TadStackInput>
     <TadStackList :elements="elements"></TadStackList>
   </div>
@@ -17,15 +17,23 @@
   import TadStackInput from './TadStackInput.vue';
   import TadStackList from './TadStackList.vue';
 
+  let debounce: number;
   const elements = ref<string[]>([]);
-  const push = (element: string): void => {
+  function push(element: string): void {
     elements.value.unshift(element);
-  };
-  const pop = (): string => {
-    const elementRemoved = elements.value[0];
-    elements.value.shift();
-    return elementRemoved;
-  };
+  }
+  function popOrTop(slug: string): string {
+    const styleClasses = ['shake', `shake__${slug}`];
+    const element = elements.value[0];
+    const DOMElement = document.getElementById(`0-${element}`);
+    DOMElement?.classList.add(...styleClasses);
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      DOMElement?.classList.remove(...styleClasses);
+      if (slug === 'pop') elements.value.shift();
+    }, 500);
+    return element;
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -41,11 +49,7 @@
     }
 
     h1 {
-      margin-bottom: 6px;
-    }
-
-    p {
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
   }
 </style>

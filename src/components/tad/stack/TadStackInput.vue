@@ -15,7 +15,7 @@
     <n-button ghost type="primary" :disabled="isEmpty" @click="pop">
       Remover()
     </n-button>
-    <n-button ghost type="primary" :disabled="isEmpty" @click="push">
+    <n-button ghost type="primary" :disabled="isEmpty" @click="top">
       Topo()
     </n-button>
   </div>
@@ -23,17 +23,20 @@
 
 <script lang="ts" setup>
   import { ref, defineEmits, defineProps } from 'vue';
-  const emit = defineEmits(['push', 'pop']);
+  const emit = defineEmits(['push', 'pop', 'top']);
   defineProps<{ isEmpty: boolean }>();
 
   let newElement = ref<string>('');
-  const push = (): void => {
+  function push(): void {
     emit('push', newElement.value);
     newElement.value = '';
-  };
-  const pop = (): void => {
+  }
+  function pop(): void {
     emit('pop');
-  };
+  }
+  function top(): void {
+    emit('top');
+  }
 </script>
 
 <style lang="scss" scoped>
