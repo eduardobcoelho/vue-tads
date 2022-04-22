@@ -1,6 +1,13 @@
+// UI Components
+import ButtonBack from '@/components/UIComponents/ButtonBack.vue';
+// TADs
 import TadStack from '@/components/tad/TadStack.vue';
 
 const globalComponents = [
+  {
+    name: 'ButtonBack',
+    SFC: ButtonBack,
+  },
   {
     name: 'TadStack',
     SFC: TadStack,
