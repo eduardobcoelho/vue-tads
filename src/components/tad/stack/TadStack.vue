@@ -3,36 +3,19 @@
   <div class="tad-stack tad-default-box">
     <h1>Pilha</h1>
     <p>Digite um valor abaixo e clique em adicionar:</p>
-    <n-space vertical>
-      <n-input-group>
-        <n-input
-          v-model:value="newElement"
-          type="text"
-          placeholder="Digite aqui..."
-        />
-        <n-button
-          ghost
-          type="primary"
-          :disabled="!newElement"
-          @click="addElement"
-        >
-          Adicionar
-        </n-button>
-      </n-input-group>
-    </n-space>
+    <tad-stack-input @addElement="addElement"></tad-stack-input>
     <tad-stack-list :elements="elements"></tad-stack-list>
   </div>
 </template>
 
 <script lang="ts" setup>
   import { ref } from 'vue';
+  import TadStackInput from './TadStackInput.vue';
   import TadStackList from './TadStackList.vue';
 
-  let newElement = ref<string>('');
   const elements = ref<string[]>([]);
-  const addElement = (): void => {
-    elements.value.unshift(newElement.value);
-    newElement.value = '';
+  const addElement = (element: string): void => {
+    elements.value.unshift(element);
   };
 </script>
 
