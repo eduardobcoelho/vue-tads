@@ -1,9 +1,10 @@
+import { Component } from 'vue';
 // UI Components
 import ButtonBack from '@/components/UIComponents/ButtonBack.vue';
 // TADs
 import TadStack from '@/components/tad/stack/TadStack.vue';
 
-const globalComponents = [
+const globalComponents: IGlobalComponent[] = [
   {
     name: 'ButtonBack',
     SFC: ButtonBack,
@@ -14,4 +15,9 @@ const globalComponents = [
   },
 ];
 
-export default globalComponents;
+export interface IGlobalComponent {
+  name: string;
+  SFC: Component;
+}
+
+export { globalComponents };
