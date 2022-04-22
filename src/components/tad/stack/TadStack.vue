@@ -3,7 +3,11 @@
   <div class="tad-stack tad-default-box">
     <h1>Pilha</h1>
     <p>Digite um valor abaixo e clique em adicionar:</p>
-    <TadStackInput @addElement="addElement"></TadStackInput>
+    <TadStackInput
+      :isEmpty="!elements.length"
+      @push="push"
+      @pop="pop"
+    ></TadStackInput>
     <TadStackList :elements="elements"></TadStackList>
   </div>
 </template>
@@ -14,8 +18,13 @@
   import TadStackList from './TadStackList.vue';
 
   const elements = ref<string[]>([]);
-  const addElement = (element: string): void => {
+  const push = (element: string): void => {
     elements.value.unshift(element);
+  };
+  const pop = (): string => {
+    const elementRemoved = elements.value[0];
+    elements.value.shift();
+    return elementRemoved;
   };
 </script>
 
