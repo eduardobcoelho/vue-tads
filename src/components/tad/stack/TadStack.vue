@@ -1,10 +1,10 @@
 <template>
-  <button-back></button-back>
+  <ButtonBack></ButtonBack>
   <div class="tad-stack tad-default-box">
     <h1>Pilha</h1>
     <p>Digite um valor abaixo e clique em adicionar:</p>
-    <tad-stack-input @addElement="addElement"></tad-stack-input>
-    <tad-stack-list :elements="elements"></tad-stack-list>
+    <TadStackInput @addElement="addElement"></TadStackInput>
+    <TadStackList :elements="elements"></TadStackList>
   </div>
 </template>
 

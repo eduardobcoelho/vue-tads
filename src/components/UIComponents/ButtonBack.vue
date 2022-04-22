@@ -1,6 +1,11 @@
 <template>
   <div class="tad-back-button">
-    <n-button @click="router.back()" strong secondary type="primary">
+    <n-button
+      @click="router.push({ name: 'Home' })"
+      strong
+      secondary
+      type="primary"
+    >
       Voltar
     </n-button>
   </div>
