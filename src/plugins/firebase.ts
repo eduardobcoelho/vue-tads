@@ -23,6 +23,6 @@ const firebaseConfig: IFirebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const providerGoogle = new GoogleAuthProvider();
+const GoogleProvider = new GoogleAuthProvider();
 
-export { app, providerGoogle };
+export { app, GoogleProvider };

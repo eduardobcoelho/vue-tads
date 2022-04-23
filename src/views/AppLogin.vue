@@ -2,7 +2,11 @@
   <div class="app-login tad-default-box">
     <h1>Login</h1>
     <div class="app-login__box">
-      <n-button color="#DB4437" style="width: 100%; padding: 24px 0">
+      <n-button
+        @click="signIn"
+        color="#DB4437"
+        style="width: 100%; padding: 24px 0"
+      >
         <Icon size="32">
           <LogoGoogle></LogoGoogle>
         </Icon>
@@ -12,9 +16,37 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
   import { Icon } from '@vicons/utils';
   import { LogoGoogle } from '@vicons/carbon';
+  import { GoogleProvider } from '@/plugins/firebase';
+  import {
+    getAuth,
+    signInWithPopup,
+    GoogleAuthProvider,
+    OAuthCredentialOptions,
+  } from 'firebase/auth';
+  import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
+
+  const auth = getAuth();
+  const store = useStore();
+  const router = useRouter();
+
+  function signIn() {
+    signInWithPopup(auth, GoogleProvider).then((result) => {
+      const { accessToken }: OAuthCredentialOptions | null =
+        GoogleAuthProvider.credentialFromResult(result);
+      const { displayName, email, photoURL } = result.user;
+      store.commit('setUser', {
+        name: displayName,
+        email,
+        photoURL,
+      });
+      localStorage.setItem('token', accessToken);
+      router.push({ name: 'Home' });
+    });
+  }
 </script>
 
 <style lang="scss" scoped>
