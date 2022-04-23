@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-  import TadSelector from '@/components/tad/TadSelector.vue';
+  import TadSelector from '@/components/Tad/TadSelector.vue';
 </script>
 
 <style lang="scss">
