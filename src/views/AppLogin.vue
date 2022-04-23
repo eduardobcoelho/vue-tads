@@ -12,13 +12,15 @@
         </Icon>
         <span>Google</span>
       </n-button>
+      <n-space v-show="loginError" vertical style="margin-top: 14px">
+        <n-alert type="error"> Tente novamente! </n-alert>
+      </n-space>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { Icon } from '@vicons/utils';
-  import { LogoGoogle } from '@vicons/carbon';
+  import { ref } from 'vue';
   import { GoogleProvider } from '@/plugins/firebase';
   import {
     getAuth,
@@ -28,10 +30,14 @@
   } from 'firebase/auth';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
+  import { Icon } from '@vicons/utils';
+  import { LogoGoogle } from '@vicons/carbon';
 
   const auth = getAuth();
   const store = useStore();
   const router = useRouter();
+
+  let loginError = ref<boolean>(false);
 
   function verifyToken() {
     if (localStorage.getItem('token')) {
@@ -40,18 +46,21 @@
   }
 
   function signIn() {
-    signInWithPopup(auth, GoogleProvider).then((result) => {
-      const { accessToken }: OAuthCredentialOptions | null =
-        GoogleAuthProvider.credentialFromResult(result);
-      const { displayName, email, photoURL } = result.user;
-      store.commit('setUser', {
-        name: displayName,
-        email,
-        photoURL,
-      });
-      localStorage.setItem('token', accessToken);
-      router.push({ name: 'Home' });
-    });
+    loginError.value = false;
+    signInWithPopup(auth, GoogleProvider)
+      .then((result) => {
+        const { accessToken }: OAuthCredentialOptions | null =
+          GoogleAuthProvider.credentialFromResult(result);
+        const { displayName, email, photoURL } = result.user;
+        store.commit('setUser', {
+          name: displayName,
+          email,
+          photoURL,
+        });
+        localStorage.setItem('token', accessToken);
+        router.push({ name: 'Home' });
+      })
+      .catch(() => (loginError.value = true));
   }
 
   verifyToken();
