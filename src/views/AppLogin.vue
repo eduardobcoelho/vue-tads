@@ -33,6 +33,12 @@
   const store = useStore();
   const router = useRouter();
 
+  function verifyToken() {
+    if (localStorage.getItem('token')) {
+      router.push({ name: 'Home' });
+    }
+  }
+
   function signIn() {
     signInWithPopup(auth, GoogleProvider).then((result) => {
       const { accessToken }: OAuthCredentialOptions | null =
@@ -47,6 +53,8 @@
       router.push({ name: 'Home' });
     });
   }
+
+  verifyToken();
 </script>
 
 <style lang="scss" scoped>
