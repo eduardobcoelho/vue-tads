@@ -5,5 +5,5 @@ export interface IStateAuth {
 export interface IUser {
   name: string;
   email: string;
-  photo?: URL;
+  photoURL?: URL;
 }
