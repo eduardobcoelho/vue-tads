@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '../views/Home.vue';
 import AppTad from '../views/AppTad.vue';
+import AppLogin from '../views/AppLogin.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/TAD',
     name: 'TAD',
     component: AppTad,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: AppLogin,
   },
 ];
 
