@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import AppMain from '../views/Main.vue';
 import AppHome from '../views/AppHome.vue';
 import AppTad from '../views/AppTad.vue';
+import AppProfile from '../views/AppProfile.vue';
 import AppLogin from '../views/AppLogin.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -19,6 +20,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/TAD',
         name: 'TAD',
         component: AppTad,
+      },
+      {
+        path: '/profile',
+        name: 'Profile',
+        component: AppProfile,
       },
     ],
   },

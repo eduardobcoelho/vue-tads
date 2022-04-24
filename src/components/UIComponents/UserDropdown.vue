@@ -25,10 +25,12 @@
   import { IUser } from '@/store/Auth/types';
   import { h, computed, Component } from 'vue';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
   import { Icon } from '@vicons/utils';
   import { UserAvatarFilled, Logout } from '@vicons/carbon';
 
   const store = useStore();
+  const router = useRouter();
 
   let user = computed<IUser>(() => store.getters.user);
   const renderIcon = (icon: Component) => {
@@ -64,7 +66,7 @@
         store.dispatch('logout');
         break;
       case 'profile':
-        console.log('--------- Colocar redirect ---------');
+        router.push({ name: 'Profile' });
         break;
     }
   }
