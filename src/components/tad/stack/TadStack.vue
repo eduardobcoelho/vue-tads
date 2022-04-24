@@ -1,5 +1,5 @@
 <template>
-  <ButtonBack></ButtonBack>
+  <ButtonHome></ButtonHome>
   <div class="tad-stack tad-default-box">
     <h1>Pilha</h1>
     <TadStackInput

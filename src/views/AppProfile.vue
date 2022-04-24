@@ -1,6 +1,6 @@
 <template>
   <div class="app-profile tad-default-box">
-    <ButtonBack></ButtonBack>
+    <ButtonHome></ButtonHome>
     <div class="app-profile__image">
       <img
         :src="`${user.photoURL}`"
