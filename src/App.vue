@@ -1,18 +1,6 @@
 <template>
-  <main id="app-main tad-default-box">
-    <template v-if="route.name != 'Login'">
-      <UserDropdown></UserDropdown>
-    </template>
-    <router-view />
-  </main>
+  <router-view />
 </template>
-
-<script setup>
-  import { useRoute } from 'vue-router';
-  import UserDropdown from '@/components/UIComponents/UserDropdown.vue';
-
-  const route = useRoute();
-</script>
 
 <style lang="scss">
   #app {
@@ -21,9 +9,5 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-  }
-
-  #app-main {
-    background-color: #f2f2f2;
   }
 </style>
