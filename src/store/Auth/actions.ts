@@ -84,18 +84,18 @@ export default {
     isForce: boolean,
   ): Promise<string> {
     try {
-      const successMessage = 'Usuário deslogado com sucesso!';
+      const feedbackMessage = isForce
+        ? 'Tempo de sessão esgotado!'
+        : 'Usuário deslogado com sucesso!';
       signOut(getAuth()).then(() => {
         localStorage.clear();
-        if (!isForce) {
-          commit('setNotification', {
-            type: 'success',
-            message: successMessage,
-          });
-        }
+        commit('setNotification', {
+          type: isForce ? 'error' : 'success',
+          message: feedbackMessage,
+        });
         router.push({ name: 'Login' });
       });
-      return Promise.resolve(successMessage);
+      return Promise.resolve(feedbackMessage);
     } catch (error) {
       commit('setNotification', {
         type: 'error',
