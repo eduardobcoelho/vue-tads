@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import AppMain from '../views/Main.vue';
+import AppMain from '../views/AppMain.vue';
 import AppHome from '../views/AppHome.vue';
 import AppTad from '../views/AppTad.vue';
 import AppProfile from '../views/AppProfile.vue';
