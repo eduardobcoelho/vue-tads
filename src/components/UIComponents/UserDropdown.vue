@@ -5,6 +5,7 @@
       trigger="click"
       size="large"
       :options="options"
+      @select="handleSelect"
     >
       <div class="user-dropdown">
         <img
@@ -44,7 +45,7 @@
   const options = [
     {
       label: 'Perfil',
-      key: 'Profile',
+      key: 'profile',
       icon: renderIcon(UserAvatarFilled),
     },
     {
@@ -53,10 +54,20 @@
     },
     {
       label: 'Sair',
-      key: 'Logout',
+      key: 'logout',
       icon: renderIcon(Logout),
     },
   ];
+  function handleSelect(key: string): void {
+    switch (key) {
+      case 'logout':
+        store.dispatch('logout');
+        break;
+      case 'profile':
+        console.log('--------- Colocar redirect ---------');
+        break;
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
