@@ -13,6 +13,16 @@
         </Icon>
         <span>Google</span>
       </n-button>
+      <n-button
+        @click="signInGithub"
+        color="#171515"
+        style="width: 100%; padding: 24px 0; margin-top: 14px"
+      >
+        <Icon size="32">
+          <LogoGithub></LogoGithub>
+        </Icon>
+        <span>GitHub</span>
+      </n-button>
       <n-space v-show="loginError" vertical style="margin-top: 14px">
         <n-alert type="error"> Tente novamente! </n-alert>
       </n-space>
@@ -22,17 +32,18 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import { GoogleProvider } from '@/plugins/firebase';
+  import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
   import {
     getAuth,
     signInWithPopup,
     GoogleAuthProvider,
     OAuthCredentialOptions,
+    GithubAuthProvider,
   } from 'firebase/auth';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
   import { Icon } from '@vicons/utils';
-  import { LogoGoogle } from '@vicons/carbon';
+  import { LogoGoogle, LogoGithub } from '@vicons/carbon';
 
   const auth = getAuth();
   const store = useStore();
@@ -52,6 +63,24 @@
       .then((result) => {
         const { accessToken }: OAuthCredentialOptions | null =
           GoogleAuthProvider.credentialFromResult(result);
+        const { displayName, email, photoURL } = result.user;
+        store.commit('setUser', {
+          name: displayName,
+          email,
+          photoURL,
+        });
+        localStorage.setItem('token', accessToken);
+        router.push({ name: 'Home' });
+      })
+      .catch(() => (loginError.value = true));
+  }
+
+  function signInGithub() {
+    loginError.value = false;
+    signInWithPopup(auth, GithubProvider)
+      .then((result) => {
+        const { accessToken }: OAuthCredentialOptions | null =
+          GithubAuthProvider.credentialFromResult(result);
         const { displayName, email, photoURL } = result.user;
         store.commit('setUser', {
           name: displayName,

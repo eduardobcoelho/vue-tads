@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
 
 interface IFirebaseConfig {
   apiKey: string;
@@ -24,5 +24,6 @@ const firebaseConfig: IFirebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const GoogleProvider = new GoogleAuthProvider();
+const GithubProvider = new GithubAuthProvider();
 
-export { app, GoogleProvider };
+export { app, GoogleProvider, GithubProvider };
