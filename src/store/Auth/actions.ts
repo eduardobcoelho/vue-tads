@@ -68,7 +68,15 @@ export default {
       photoURL,
     });
     const accessToken: string | undefined = credential.accessToken;
-    if (accessToken) localStorage.setItem('token', accessToken);
+    if (accessToken) {
+      localStorage.setItem('token', accessToken);
+      setTimeout(() => {
+        commit('setNotification', {
+          type: 'success',
+          message: 'Usuário autenticado com sucesso!',
+        });
+      }, 500);
+    }
     router.push({ name: 'Home' });
   },
   logout(
