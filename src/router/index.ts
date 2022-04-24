@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import store from '@/store';
 import AppMain from '../views/AppMain.vue';
 import AppHome from '../views/AppHome.vue';
 import AppTad from '../views/AppTad.vue';
@@ -41,10 +42,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (!localStorage.getItem('token')) {
-    if (to.name != 'Login') router.push({ name: 'Login' });
-    localStorage.clear();
-  }
+  if (!localStorage.getItem('token')) store.dispatch('logout', true);
 });
 
 export default router;

@@ -4,7 +4,7 @@
     <h4>Selecione a opção desejada</h4>
     <div class="app-login__box">
       <n-button
-        @click="signIn"
+        @click="signIn('Google')"
         color="#DB4437"
         style="width: 100%; padding: 24px 0"
       >
@@ -14,7 +14,7 @@
         <span>Google</span>
       </n-button>
       <n-button
-        @click="signInGithub"
+        @click="signIn('Github')"
         color="#171515"
         style="width: 100%; padding: 24px 0; margin-top: 14px"
       >
@@ -32,65 +32,24 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
-  import {
-    getAuth,
-    signInWithPopup,
-    GoogleAuthProvider,
-    OAuthCredentialOptions,
-    GithubAuthProvider,
-  } from 'firebase/auth';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
   import { Icon } from '@vicons/utils';
   import { LogoGoogle, LogoGithub } from '@vicons/carbon';
 
-  const auth = getAuth();
   const store = useStore();
   const router = useRouter();
 
   let loginError = ref<boolean>(false);
 
+  function signIn(provider: string) {
+    loginError.value = false;
+    store.dispatch(`signIn${provider}`).catch(() => (loginError.value = true));
+  }
   function verifyToken() {
     if (localStorage.getItem('token')) {
       router.push({ name: 'Home' });
     }
-  }
-
-  function signIn() {
-    loginError.value = false;
-    signInWithPopup(auth, GoogleProvider)
-      .then((result) => {
-        const { accessToken }: OAuthCredentialOptions | null =
-          GoogleAuthProvider.credentialFromResult(result);
-        const { displayName, email, photoURL } = result.user;
-        store.commit('setUser', {
-          name: displayName,
-          email,
-          photoURL,
-        });
-        localStorage.setItem('token', accessToken);
-        router.push({ name: 'Home' });
-      })
-      .catch(() => (loginError.value = true));
-  }
-
-  function signInGithub() {
-    loginError.value = false;
-    signInWithPopup(auth, GithubProvider)
-      .then((result) => {
-        const { accessToken }: OAuthCredentialOptions | null =
-          GithubAuthProvider.credentialFromResult(result);
-        const { displayName, email, photoURL } = result.user;
-        store.commit('setUser', {
-          name: displayName,
-          email,
-          photoURL,
-        });
-        localStorage.setItem('token', accessToken);
-        router.push({ name: 'Home' });
-      })
-      .catch(() => (loginError.value = true));
   }
 
   verifyToken();

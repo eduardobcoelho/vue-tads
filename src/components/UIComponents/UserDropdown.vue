@@ -63,7 +63,7 @@
   function handleSelect(key: string): void {
     switch (key) {
       case 'logout':
-        store.dispatch('logout');
+        store.dispatch('logout', false);
         break;
       case 'profile':
         router.push({ name: 'Profile' });

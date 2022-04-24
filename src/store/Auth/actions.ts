@@ -1,15 +1,90 @@
-import { getAuth, signOut } from 'firebase/auth';
 import router from '@/router';
+import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
+import {
+  getAuth,
+  signOut,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  UserCredential,
+  OAuthCredential,
+} from 'firebase/auth';
 import { ActionContext } from 'vuex';
 import { IStateNotification } from '../Notification/types';
+import { IStateAuth, ISigninReturn } from './types';
 
 export default {
-  logout({ commit }: ActionContext<IStateNotification, any>): Promise<string> {
+  signInGoogle({
+    dispatch,
+  }: ActionContext<IStateAuth, any>): Promise<ISigninReturn | string> {
+    return new Promise((resolve, reject) => {
+      signInWithPopup(getAuth(), GoogleProvider)
+        .then((result: UserCredential) => {
+          const credential: OAuthCredential | null =
+            GoogleAuthProvider.credentialFromResult(result);
+          const userData = {
+            result,
+            credential,
+          };
+          dispatch('setUserData', userData);
+          resolve(userData);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+  signInGithub({
+    dispatch,
+  }: ActionContext<IStateAuth, any>): Promise<ISigninReturn | string> {
+    return new Promise((resolve, reject) => {
+      signInWithPopup(getAuth(), GithubProvider)
+        .then((result: UserCredential) => {
+          const credential: OAuthCredential | null =
+            GithubAuthProvider.credentialFromResult(result);
+          const userData = {
+            result,
+            credential,
+          };
+          dispatch('setUserData', userData);
+          resolve(userData);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+  setUserData(
+    { commit }: ActionContext<IStateAuth, any>,
+    {
+      result,
+      credential,
+    }: { result: UserCredential; credential: OAuthCredential },
+  ): void {
+    const { displayName, email, photoURL } = result.user;
+    commit('setUser', {
+      name: displayName,
+      email,
+      photoURL,
+    });
+    const accessToken: string | undefined = credential.accessToken;
+    if (accessToken) localStorage.setItem('token', accessToken);
+    router.push({ name: 'Home' });
+  },
+  logout(
+    { commit }: ActionContext<IStateNotification, any>,
+    isForce: boolean,
+  ): Promise<string> {
     try {
       const successMessage = 'Usuário deslogado com sucesso!';
       signOut(getAuth()).then(() => {
         localStorage.clear();
-        commit('setNotification', { type: 'success', message: successMessage });
+        if (!isForce) {
+          commit('setNotification', {
+            type: 'success',
+            message: successMessage,
+          });
+        }
         router.push({ name: 'Login' });
       });
       return Promise.resolve(successMessage);
