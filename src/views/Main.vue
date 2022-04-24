@@ -8,10 +8,20 @@
 </template>
 
 <script setup>
+  import { computed, watch } from 'vue';
   import { useRoute } from 'vue-router';
+  import { useStore } from 'vuex';
+  import { useMessage } from 'naive-ui';
   import UserDropdown from '@/components/UIComponents/UserDropdown.vue';
 
+  const store = useStore();
   const route = useRoute();
+  const naiveMessage = useMessage();
+
+  let notification = computed(() => store.getters.notification);
+  watch(notification, ({ type, message }) => {
+    naiveMessage[type](message);
+  });
 </script>
 
 <style>
