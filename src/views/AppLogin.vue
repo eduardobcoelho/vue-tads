@@ -1,6 +1,7 @@
 <template>
   <div class="app-login tad-default-box">
     <h1>Login</h1>
+    <h4>Selecione a opção desejada</h4>
     <div class="app-login__box">
       <n-button
         @click="signIn"
@@ -72,10 +73,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #63e2b7;
 
-    h1 {
-      margin-bottom: 16px;
+    h4 {
+      color: #757575;
+      margin-bottom: 14px;
     }
 
     &__box {
