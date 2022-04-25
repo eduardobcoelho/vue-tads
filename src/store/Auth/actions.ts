@@ -1,5 +1,5 @@
 import router from '@/router';
-// import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
+import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
 import {
   getAuth,
   signOut,
@@ -15,17 +15,17 @@ import { IStateAuth, ISigninReturn } from './types';
 
 export default {
   signIn(
-    { state, dispatch }: ActionContext<IStateAuth, any>,
+    { dispatch }: ActionContext<IStateAuth, any>,
     payload: string,
   ): Promise<ISigninReturn | string> {
     let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
-      state.authProviders.google;
+      GoogleAuthProvider;
     let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
-      state.authProvidersInstance.google;
+      GoogleProvider;
     switch (payload) {
       case 'github':
-        authProvider = state.authProviders.github;
-        authProviderInstance = state.authProvidersInstance.github;
+        authProvider = GithubAuthProvider;
+        authProviderInstance = GithubProvider;
         break;
     }
     return new Promise((resolve, reject) => {
@@ -41,7 +41,6 @@ export default {
           resolve(userData);
         })
         .catch((error) => {
-          console.log('error', error);
           reject(error);
         });
     });
