@@ -6,13 +6,14 @@ import {
 } from '@/plugins/firebase';
 import {
   getAuth,
-  signOut,
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
   FacebookAuthProvider,
   UserCredential,
   OAuthCredential,
+  setPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth';
 import { ActionContext } from 'vuex';
 import { IStateNotification } from '../Notification/types';
@@ -47,20 +48,23 @@ export default {
         break;
     }
     return new Promise((resolve, reject) => {
-      signInWithPopup(getAuth(), authProviderInstance)
-        .then((result: UserCredential) => {
-          const credential: OAuthCredential | null =
-            authProvider.credentialFromResult(result);
-          const userData: ISigninReturn = {
-            result,
-            credential,
-          };
-          dispatch('setUserData', userData);
-          resolve(userData);
-        })
-        .catch((error) => {
-          reject(error);
-        });
+      const auth = getAuth();
+      setPersistence(auth, browserLocalPersistence).then(() => {
+        signInWithPopup(auth, authProviderInstance)
+          .then((result: UserCredential) => {
+            const credential: OAuthCredential | null =
+              authProvider.credentialFromResult(result);
+            const userData: ISigninReturn = {
+              result,
+              credential,
+            };
+            dispatch('setUserData', userData);
+            resolve(userData);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
     });
   },
   setUserData(
@@ -99,11 +103,9 @@ export default {
         type: isForce ? 'error' : 'success',
         message: feedbackMessage,
       };
-      signOut(getAuth()).then(() => {
-        localStorage.clear();
-        commit('setNotification', notification);
-        router.push({ name: 'Login' });
-      });
+      localStorage.clear();
+      commit('setNotification', notification);
+      router.push({ name: 'Login' });
       return Promise.resolve(feedbackMessage);
     } catch (error) {
       commit('setNotification', {
