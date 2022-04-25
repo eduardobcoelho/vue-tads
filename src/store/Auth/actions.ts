@@ -12,6 +12,7 @@ import {
 import { ActionContext } from 'vuex';
 import { IStateNotification } from '../Notification/types';
 import { IStateAuth, ISigninReturn } from './types';
+import { INotification } from '@/store/Notification/types';
 
 export default {
   signIn(
@@ -49,15 +50,15 @@ export default {
     { commit }: ActionContext<IStateAuth, any>,
     { result, credential }: ISigninReturn,
   ): void {
+    const accessToken: string | undefined = credential
+      ? credential.accessToken
+      : undefined;
     const { displayName, email, photoURL } = result.user;
     commit('setUser', {
       name: displayName,
       email,
       photoURL,
     });
-    const accessToken: string | undefined = credential
-      ? credential.accessToken
-      : undefined;
     if (accessToken) {
       localStorage.setItem('token', accessToken);
       setTimeout(() => {
@@ -74,15 +75,16 @@ export default {
     isForce: boolean,
   ): Promise<string> {
     try {
-      const feedbackMessage = isForce
+      const feedbackMessage: string = isForce
         ? 'Tempo de sessão esgotado!'
         : 'Usuário deslogado com sucesso!';
+      const notification: INotification = {
+        type: isForce ? 'error' : 'success',
+        message: feedbackMessage,
+      };
       signOut(getAuth()).then(() => {
         localStorage.clear();
-        commit('setNotification', {
-          type: isForce ? 'error' : 'success',
-          message: feedbackMessage,
-        });
+        commit('setNotification', notification);
         router.push({ name: 'Login' });
       });
       return Promise.resolve(feedbackMessage);
