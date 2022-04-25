@@ -30,7 +30,7 @@
   const emit = defineEmits(['setErrorStatus']);
   const store = useStore();
 
-  const authOptions: { provider: string; color: string } = [
+  const authOptions = [
     { provider: 'Google', color: '#DB4437' },
     { provider: 'Facebook', color: '#4267B2' },
     { provider: 'Github', color: '#171515' },

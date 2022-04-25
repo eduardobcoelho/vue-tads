@@ -1,8 +1,9 @@
 <template>
   <div class="app-login tad-default-box">
     <h1>Login</h1>
-    <h4>Selecione a opção desejada</h4>
     <div class="app-login__box">
+      <AppLoginForm></AppLoginForm>
+      <div class="app-login__btn-or">ou</div>
       <AppLoginProviders
         @setErrorStatus="
           (value) => {
@@ -20,6 +21,7 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import AppLoginForm from '@/components/Login/AppLoginForm.vue';
   import AppLoginProviders from '@/components/Login/AppLoginProviders.vue';
 
   const router = useRouter();
@@ -45,12 +47,19 @@
       margin-bottom: 14px;
     }
 
+    &__btn-or {
+      font-weight: bold;
+      color: #919191;
+      margin-top: 14px;
+    }
+
     &__box {
       padding: 18px 14px;
       background: white;
       border-radius: 12px;
       box-shadow: 0px 0px 8px rgba($color: #000000, $alpha: 0.5);
       min-width: 280px;
+      margin-top: 14px;
     }
   }
 </style>
