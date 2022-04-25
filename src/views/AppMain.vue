@@ -1,6 +1,6 @@
 <template>
   <main id="app-main tad-default-box">
-    <template v-if="route.name != 'Login'">
+    <template v-if="route.name != 'Login' && user">
       <UserDropdown v-show="route.name != 'Profile'"></UserDropdown>
     </template>
     <router-view></router-view>
@@ -18,7 +18,8 @@
   const route = useRoute();
   const naiveMessage = useMessage();
 
-  let notification = computed(() => store.getters.notification);
+  const user = computed(() => store.getters.user);
+  const notification = computed(() => store.getters.notification);
   watch(notification, ({ type, message }) => {
     naiveMessage[type](message);
   });
