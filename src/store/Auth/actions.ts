@@ -33,7 +33,7 @@ export default {
         .then((result: UserCredential) => {
           const credential: OAuthCredential | null =
             authProvider.credentialFromResult(result);
-          const userData = {
+          const userData: ISigninReturn = {
             result,
             credential,
           };
@@ -48,10 +48,7 @@ export default {
   },
   setUserData(
     { commit }: ActionContext<IStateAuth, any>,
-    {
-      result,
-      credential,
-    }: { result: UserCredential; credential: OAuthCredential },
+    { result, credential }: ISigninReturn,
   ): void {
     const { displayName, email, photoURL } = result.user;
     commit('setUser', {
@@ -59,7 +56,9 @@ export default {
       email,
       photoURL,
     });
-    const accessToken: string | undefined = credential.accessToken;
+    const accessToken: string | undefined = credential
+      ? credential.accessToken
+      : undefined;
     if (accessToken) {
       localStorage.setItem('token', accessToken);
       setTimeout(() => {
