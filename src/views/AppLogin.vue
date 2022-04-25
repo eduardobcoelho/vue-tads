@@ -4,7 +4,7 @@
     <h4>Selecione a opção desejada</h4>
     <div class="app-login__box">
       <n-button
-        @click="signIn('Google')"
+        @click="signIn('google')"
         color="#DB4437"
         style="width: 100%; padding: 24px 0"
       >
@@ -14,7 +14,7 @@
         <span>Google</span>
       </n-button>
       <n-button
-        @click="signIn('Github')"
+        @click="signIn('github')"
         color="#171515"
         style="width: 100%; padding: 24px 0; margin-top: 14px"
       >
@@ -44,7 +44,7 @@
 
   function signIn(provider: string) {
     loginError.value = false;
-    store.dispatch(`signIn${provider}`).catch(() => (loginError.value = true));
+    store.dispatch('signIn', provider).catch(() => (loginError.value = true));
   }
   function verifyToken() {
     if (localStorage.getItem('token')) {

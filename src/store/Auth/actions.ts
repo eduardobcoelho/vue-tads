@@ -1,5 +1,5 @@
 import router from '@/router';
-import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
+// import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
 import {
   getAuth,
   signOut,
@@ -14,14 +14,25 @@ import { IStateNotification } from '../Notification/types';
 import { IStateAuth, ISigninReturn } from './types';
 
 export default {
-  signInGoogle({
-    dispatch,
-  }: ActionContext<IStateAuth, any>): Promise<ISigninReturn | string> {
+  signIn(
+    { state, dispatch }: ActionContext<IStateAuth, any>,
+    payload: string,
+  ): Promise<ISigninReturn | string> {
+    let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
+      state.authProviders.google;
+    let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
+      state.authProvidersInstance.google;
+    switch (payload) {
+      case 'github':
+        authProvider = state.authProviders.github;
+        authProviderInstance = state.authProvidersInstance.github;
+        break;
+    }
     return new Promise((resolve, reject) => {
-      signInWithPopup(getAuth(), GoogleProvider)
+      signInWithPopup(getAuth(), authProviderInstance)
         .then((result: UserCredential) => {
           const credential: OAuthCredential | null =
-            GoogleAuthProvider.credentialFromResult(result);
+            authProvider.credentialFromResult(result);
           const userData = {
             result,
             credential,
@@ -30,26 +41,7 @@ export default {
           resolve(userData);
         })
         .catch((error) => {
-          reject(error);
-        });
-    });
-  },
-  signInGithub({
-    dispatch,
-  }: ActionContext<IStateAuth, any>): Promise<ISigninReturn | string> {
-    return new Promise((resolve, reject) => {
-      signInWithPopup(getAuth(), GithubProvider)
-        .then((result: UserCredential) => {
-          const credential: OAuthCredential | null =
-            GithubAuthProvider.credentialFromResult(result);
-          const userData = {
-            result,
-            credential,
-          };
-          dispatch('setUserData', userData);
-          resolve(userData);
-        })
-        .catch((error) => {
+          console.log('error', error);
           reject(error);
         });
     });
