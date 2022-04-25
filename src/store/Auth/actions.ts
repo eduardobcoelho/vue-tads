@@ -1,11 +1,16 @@
 import router from '@/router';
-import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
+import {
+  GoogleProvider,
+  GithubProvider,
+  FacebookProvider,
+} from '@/plugins/firebase';
 import {
   getAuth,
   signOut,
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
+  FacebookAuthProvider,
   UserCredential,
   OAuthCredential,
 } from 'firebase/auth';
@@ -17,16 +22,28 @@ import { INotification } from '@/store/Notification/types';
 export default {
   signIn(
     { dispatch }: ActionContext<IStateAuth, any>,
-    payload: string,
+    provider = 'google',
   ): Promise<ISigninReturn | string> {
-    let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
-      GoogleAuthProvider;
-    let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
-      GoogleProvider;
-    switch (payload) {
+    let authProvider:
+      | typeof GoogleAuthProvider
+      | typeof GithubAuthProvider
+      | typeof FacebookAuthProvider;
+    let authProviderInstance:
+      | GoogleAuthProvider
+      | GithubAuthProvider
+      | typeof FacebookProvider;
+    switch (provider) {
+      case 'google':
+        authProvider = GoogleAuthProvider;
+        authProviderInstance = GoogleProvider;
+        break;
       case 'github':
         authProvider = GithubAuthProvider;
         authProviderInstance = GithubProvider;
+        break;
+      case 'facebook':
+        authProvider = FacebookAuthProvider;
+        authProviderInstance = FacebookProvider;
         break;
     }
     return new Promise((resolve, reject) => {

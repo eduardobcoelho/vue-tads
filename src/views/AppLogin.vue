@@ -4,24 +4,24 @@
     <h4>Selecione a opção desejada</h4>
     <div class="app-login__box">
       <n-button
-        @click="signIn('google')"
-        color="#DB4437"
-        style="width: 100%; padding: 24px 0"
+        v-for="{ provider, color } in authOptions"
+        :key="provider"
+        @click="signIn(provider.toLowerCase())"
+        :color="color"
+        class="app-login__button"
       >
         <Icon size="32">
-          <LogoGoogle></LogoGoogle>
+          <template v-if="provider === 'Google'">
+            <LogoGoogle></LogoGoogle>
+          </template>
+          <template v-else-if="provider === 'Facebook'">
+            <LogoFacebook></LogoFacebook>
+          </template>
+          <template v-else>
+            <LogoGithub></LogoGithub>
+          </template>
         </Icon>
-        <span>Google</span>
-      </n-button>
-      <n-button
-        @click="signIn('github')"
-        color="#171515"
-        style="width: 100%; padding: 24px 0; margin-top: 14px"
-      >
-        <Icon size="32">
-          <LogoGithub></LogoGithub>
-        </Icon>
-        <span>GitHub</span>
+        <span>{{ provider }}</span>
       </n-button>
       <n-space v-show="loginError" vertical style="margin-top: 14px">
         <n-alert type="error"> Tente novamente! </n-alert>
@@ -35,12 +35,18 @@
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
   import { Icon } from '@vicons/utils';
-  import { LogoGoogle, LogoGithub } from '@vicons/carbon';
+  import { LogoGoogle, LogoGithub, LogoFacebook } from '@vicons/carbon';
 
   const store = useStore();
   const router = useRouter();
 
   let loginError = ref<boolean>(false);
+
+  const authOptions: { provider: string; color: string } = [
+    { provider: 'Google', color: '#DB4437' },
+    { provider: 'Facebook', color: '#4267B2' },
+    { provider: 'Github', color: '#171515' },
+  ];
 
   function signIn(provider: string) {
     loginError.value = false;
@@ -65,6 +71,15 @@
     h4 {
       color: #757575;
       margin-bottom: 14px;
+    }
+
+    &__button {
+      width: 100%;
+      padding: 24px 0;
+
+      &:not(&:nth-child(1)) {
+        margin-top: 14px;
+      }
     }
 
     &__box {
