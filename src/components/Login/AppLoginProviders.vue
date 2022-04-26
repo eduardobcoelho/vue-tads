@@ -44,7 +44,6 @@
         if (!result) localStorage.clear();
       })
       .catch(() => {
-        console.log('ta entrando aqui é');
         emit('setErrorStatus', true);
       });
   });
