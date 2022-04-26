@@ -67,6 +67,7 @@ export default {
             dispatch('setUserData', userData);
             resolve(userData);
           } else {
+            localStorage.clear();
             resolve(null);
           }
         })

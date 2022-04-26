@@ -26,7 +26,6 @@
   import { useStore } from 'vuex';
   import { Icon } from '@vicons/utils';
   import { LogoGoogle, LogoGithub, LogoFacebook } from '@vicons/carbon';
-  import { ISigninReturn } from '@/store/Auth/types';
 
   const emit = defineEmits(['setErrorStatus']);
   const store = useStore();
@@ -38,14 +37,7 @@
   ];
 
   onMounted(() => {
-    store
-      .dispatch('redirectResult')
-      .then((result: ISigninReturn | null) => {
-        if (!result) localStorage.clear();
-      })
-      .catch(() => {
-        emit('setErrorStatus', true);
-      });
+    store.dispatch('redirectResult').catch(() => emit('setErrorStatus', true));
   });
 
   function signIn(provider: string) {
