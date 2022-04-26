@@ -15,11 +15,11 @@
     <div class="app-profile__credentials">
       <div class="app-profile__input">
         <span>Nome:</span>
-        <n-input v-model:value="user.email" type="text" disabled />
+        <n-input v-model:value="user.name" type="text" disabled />
       </div>
       <div class="app-profile__input">
         <span>Email:</span>
-        <n-input v-model:value="user.name" type="text" disabled />
+        <n-input v-model:value="user.email" type="email" disabled />
       </div>
     </div>
   </div>
