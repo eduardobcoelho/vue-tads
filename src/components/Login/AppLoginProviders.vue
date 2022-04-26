@@ -22,10 +22,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { defineEmits } from 'vue';
+  import { defineEmits, onMounted } from 'vue';
   import { useStore } from 'vuex';
   import { Icon } from '@vicons/utils';
   import { LogoGoogle, LogoGithub, LogoFacebook } from '@vicons/carbon';
+  import { ISigninReturn } from '@/store/Auth/types';
 
   const emit = defineEmits(['setErrorStatus']);
   const store = useStore();
@@ -36,11 +37,21 @@
     { provider: 'Github', color: '#171515' },
   ];
 
+  onMounted(() => {
+    store
+      .dispatch('redirectResult')
+      .then((result: ISigninReturn | null) => {
+        if (!result) localStorage.clear();
+      })
+      .catch(() => {
+        console.log('ta entrando aqui é');
+        emit('setErrorStatus', true);
+      });
+  });
+
   function signIn(provider: string) {
     emit('setErrorStatus', false);
-    store.dispatch('signIn', provider).catch(() => {
-      emit('setErrorStatus', true);
-    });
+    store.dispatch('signIn', provider);
   }
 </script>
 

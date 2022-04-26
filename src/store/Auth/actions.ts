@@ -6,7 +6,8 @@ import {
 } from '@/plugins/firebase';
 import {
   getAuth,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider,
   GithubAuthProvider,
   FacebookAuthProvider,
@@ -20,19 +21,17 @@ import { IStateNotification } from '../Notification/types';
 import { IStateAuth, ISigninReturn } from './types';
 import { INotification } from '@/store/Notification/types';
 
+let authProvider:
+  | typeof GoogleAuthProvider
+  | typeof GithubAuthProvider
+  | typeof FacebookAuthProvider = GoogleAuthProvider;
+let authProviderInstance:
+  | GoogleAuthProvider
+  | GithubAuthProvider
+  | typeof FacebookProvider = GoogleProvider;
+
 export default {
-  signIn(
-    { dispatch }: ActionContext<IStateAuth, any>,
-    provider = 'google',
-  ): Promise<ISigninReturn | string> {
-    let authProvider:
-      | typeof GoogleAuthProvider
-      | typeof GithubAuthProvider
-      | typeof FacebookAuthProvider;
-    let authProviderInstance:
-      | GoogleAuthProvider
-      | GithubAuthProvider
-      | typeof FacebookProvider;
+  signIn(_: ActionContext<IStateAuth, any>, provider = 'google'): void {
     switch (provider) {
       case 'google':
         authProvider = GoogleAuthProvider;
@@ -47,11 +46,18 @@ export default {
         authProviderInstance = FacebookProvider;
         break;
     }
+    const auth = getAuth();
+    setPersistence(auth, browserLocalPersistence).then(() => {
+      signInWithRedirect(auth, authProviderInstance);
+    });
+  },
+  redirectResult({
+    dispatch,
+  }: ActionContext<IStateAuth, any>): Promise<ISigninReturn | null> {
     return new Promise((resolve, reject) => {
-      const auth = getAuth();
-      setPersistence(auth, browserLocalPersistence).then(() => {
-        signInWithPopup(auth, authProviderInstance)
-          .then((result: UserCredential) => {
+      getRedirectResult(getAuth())
+        .then((result: UserCredential | null) => {
+          if (result) {
             const credential: OAuthCredential | null =
               authProvider.credentialFromResult(result);
             const userData: ISigninReturn = {
@@ -60,11 +66,13 @@ export default {
             };
             dispatch('setUserData', userData);
             resolve(userData);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      });
+          } else {
+            resolve(null);
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
     });
   },
   setUserData(

@@ -6,7 +6,7 @@
     :rules="rules"
     class="app-login-form"
   >
-    <n-form-item label="Email" path="email">
+    <n-form-item label="Email" path="email" label-style="font-weight: bold;">
       <n-input
         type="email"
         v-model:value="model.email"
@@ -14,7 +14,7 @@
         :rule="[rules.email]"
       ></n-input>
     </n-form-item>
-    <n-form-item label="Senha" path="password">
+    <n-form-item label="Senha" path="password" label-style="font-weight: bold;">
       <n-input
         type="password"
         v-model:value="model.password"
