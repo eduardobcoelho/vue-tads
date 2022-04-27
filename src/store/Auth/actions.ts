@@ -29,13 +29,21 @@ let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
 let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
   GoogleProvider;
 
-const formatErrorCode = (errorCode: string): string =>
-  errorCode.replace('auth/', '').replaceAll('-', '').toUpperCase();
+const formatErrorCode = (module: string, errorCode: string): string =>
+  errorCode.replace(`${module}/`, '').replaceAll('-', '').toUpperCase();
 
 const getAuthErrorMessage = (errorCode: string): string => {
-  switch (formatErrorCode(errorCode)) {
+  switch (formatErrorCode('auth', errorCode)) {
     case 'EMAILALREADYINUSE':
       return EAuthErrorsMessage.EMAILALREADYINUSE;
+    case 'INVALIDEMAIL':
+      return EAuthErrorsMessage.INVALIDEMAIL;
+    case 'USERDISABLED':
+      return EAuthErrorsMessage.USERDISABLED;
+    case 'USERNOTFOUND':
+      return EAuthErrorsMessage.USERNOTFOUND;
+    case 'WRONGPASSWORD':
+      return EAuthErrorsMessage.WRONGPASSWORD;
     case 'WEAKPASSWORD':
       return EAuthErrorsMessage.WEAKPASSWORD;
     default:
@@ -108,8 +116,8 @@ export default {
             resolve(null);
           }
         })
-        .catch((error) => {
-          reject(error);
+        .catch((error: AuthError) => {
+          reject(getAuthErrorMessage(error.code));
         });
     });
   },
