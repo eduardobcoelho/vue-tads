@@ -31,36 +31,24 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive, ref } from 'vue';
+  import { reactive, ref, computed } from 'vue';
   import { FormInst } from 'naive-ui';
+  import { ICadasterModel, IValidationsObject } from '@/store/Validation/types';
+  import { useStore } from 'vuex';
 
-  interface loginModel {
-    email: string;
-    password: string;
-  }
+  const store = useStore();
+
   const loginForm = ref<FormInst | null>(null);
-  const model = reactive<loginModel>({
+  const model = reactive<Partial<ICadasterModel>>({
     email: '',
     password: '',
   });
+  const validations = computed<IValidationsObject>(
+    () => store.getters.validations,
+  );
   const rules = {
-    email: [
-      {
-        required: true,
-        message: 'Campo obrigatório!',
-        trigger: ['input', 'blur'],
-      },
-      {
-        type: 'email',
-        message: 'E-mail inválido!',
-        trigger: ['blur', 'input'],
-      },
-    ],
-    password: {
-      required: true,
-      message: 'Campo obrigatório!',
-      trigger: ['input', 'blur'],
-    },
+    email: [validations.value.email, validations.value.required],
+    password: validations.value.required,
   };
   function submitForm() {
     loginForm.value?.validate((errors) => {
