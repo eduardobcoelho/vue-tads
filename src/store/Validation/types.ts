@@ -14,3 +14,8 @@ export interface ICadasterModel {
   password: string;
   confirmPassword: string;
 }
+
+export enum EAuthErrorsMessage {
+  EMAILALREADYINUSE = 'O E-mail já está em uso',
+  WEAKPASSWORD = 'Senha fraca',
+}

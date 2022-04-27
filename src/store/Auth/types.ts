@@ -5,12 +5,16 @@ export interface IStateAuth {
 }
 
 export interface IUser {
-  name: string;
+  name: string | null;
   email: string;
-  photoURL?: URL;
+  photoURL?: URL | null;
+}
+
+interface IAccessToken {
+  accessToken: string;
 }
 
 export interface ISigninReturn {
   result: UserCredential;
-  credential: OAuthCredential | null;
+  credential: OAuthCredential | IAccessToken | null;
 }

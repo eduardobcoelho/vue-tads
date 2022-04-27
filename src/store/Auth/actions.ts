@@ -2,6 +2,7 @@ import router from '@/router';
 import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
 import {
   getAuth,
+  createUserWithEmailAndPassword,
   signInWithRedirect,
   getRedirectResult,
   GoogleAuthProvider,
@@ -10,18 +11,48 @@ import {
   OAuthCredential,
   setPersistence,
   browserLocalPersistence,
+  AuthError,
 } from 'firebase/auth';
 import { ActionContext } from 'vuex';
 import { IStateNotification } from '../Notification/types';
 import { IStateAuth, ISigninReturn } from './types';
 import { INotification } from '@/store/Notification/types';
+import { ICadasterModel, EAuthErrorsMessage } from '../Validation/types';
 
 let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
   GoogleAuthProvider;
 let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
   GoogleProvider;
 
+const formatErrorCode = (errorCode: string): string =>
+  errorCode.replace('auth/', '').replaceAll('-', '').toUpperCase();
+
+const getAuthErrorMessage = (errorCode: string): string => {
+  switch (formatErrorCode(errorCode)) {
+    case 'EMAILALREADYINUSE':
+      return EAuthErrorsMessage.EMAILALREADYINUSE;
+    case 'WEAKPASSWORD':
+      return EAuthErrorsMessage.WEAKPASSWORD;
+    default:
+      return 'Tente novamente';
+  }
+};
+
 export default {
+  signUp(
+    _: ActionContext<any, any>,
+    { email, password }: ICadasterModel,
+  ): Promise<UserCredential> {
+    return new Promise((resolve, reject) => {
+      createUserWithEmailAndPassword(getAuth(), email, password)
+        .then((result: UserCredential) => {
+          resolve(result);
+        })
+        .catch((error: AuthError) => {
+          reject(getAuthErrorMessage(error.code));
+        });
+    });
+  },
   signIn(_: ActionContext<IStateAuth, any>, provider = 'google'): void {
     switch (provider) {
       case 'google':
@@ -70,7 +101,7 @@ export default {
     const accessToken: string | undefined = credential
       ? credential.accessToken
       : undefined;
-    const { displayName, email, photoURL } = result.user;
+    const { displayName = null, email, photoURL = null } = result.user;
     commit('setUser', {
       name: displayName,
       email,

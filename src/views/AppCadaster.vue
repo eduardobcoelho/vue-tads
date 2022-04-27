@@ -3,7 +3,7 @@
     <ButtonBack></ButtonBack>
     <h1>Cadastre-se</h1>
     <div class="app-cadaster__box">
-      <n-form ref="loginForm" size="medium" :model="model" :rules="rules">
+      <n-form ref="cadasterForm" size="medium" :model="model" :rules="rules">
         <n-form-item
           label="Email"
           path="email"
@@ -39,35 +39,72 @@
             show-password-on="click"
           ></n-input>
         </n-form-item>
+        <n-space v-if="loginError" vertical style="margin-bottom: 14px">
+          <n-alert closable type="error" @on-close="loginError = null">
+            {{ loginError }}
+          </n-alert>
+        </n-space>
+        <n-space v-if="differentPasswords" vertical style="margin-bottom: 14px">
+          <n-alert type="error"> As senhas estão diferentes! </n-alert>
+        </n-space>
         <div class="app-cadaster__actions">
-          <n-button type="primary"> Cadastrar </n-button>
+          <n-button
+            type="primary"
+            :disabled="differentPasswords"
+            @click="signUp"
+          >
+            Cadastrar
+          </n-button>
         </div>
       </n-form>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-  import { ICadasterModel, IValidationsObject } from '@/store/Validation/types';
-  import { reactive, computed } from 'vue';
+<script setup>
+  import { reactive, computed, ref } from 'vue';
   import { useStore } from 'vuex';
 
   const store = useStore();
 
-  const model = reactive<ICadasterModel>({
+  let loginError = ref(null);
+  const cadasterForm = ref(null);
+  const model = reactive({
     email: '',
     password: '',
     confirmPassword: '',
   });
-
-  const validations = computed<IValidationsObject>(
-    () => store.getters.validations,
-  );
+  const validations = computed(() => store.getters.validations);
+  const differentPasswords = computed(() => {
+    if (!model.password || !model.confirmPassword) return false;
+    return model.password != model.confirmPassword;
+  });
   const rules = {
     email: [validations.value.email, validations.value.required],
     password: validations.value.required,
     confirmPassword: validations.value.required,
   };
+
+  function signUp() {
+    if (loginError.value) loginError.value = null;
+    cadasterForm.value?.validate((errors) => {
+      if (!errors) {
+        store
+          .dispatch('signUp', model)
+          .then((result) => {
+            store.commit('setUserData', {
+              result,
+              credential: {
+                accessToken: result.user.accessToken,
+              },
+            });
+          })
+          .catch((error) => (loginError.value = error));
+      } else {
+        loginError.value = null;
+      }
+    });
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -79,11 +116,13 @@
     text-align: start;
 
     &__box {
+      width: 100%;
       padding: 18px 14px;
       background: white;
       border-radius: 12px;
       box-shadow: 0px 0px 8px rgba($color: #000000, $alpha: 0.5);
       min-width: 280px;
+      max-width: 340px;
       margin-top: 14px;
     }
 
