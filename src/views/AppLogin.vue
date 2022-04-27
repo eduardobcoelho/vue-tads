@@ -72,11 +72,13 @@
     }
 
     &__box {
+      width: 100%;
       padding: 18px 14px;
       background: white;
       border-radius: 12px;
       box-shadow: 0px 0px 8px rgba($color: #000000, $alpha: 0.5);
       min-width: 280px;
+      max-width: 340px;
       margin-top: 14px;
     }
   }
