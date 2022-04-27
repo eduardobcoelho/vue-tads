@@ -4,6 +4,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithRedirect,
+  signInWithEmailAndPassword,
   getRedirectResult,
   GoogleAuthProvider,
   GithubAuthProvider,
@@ -15,9 +16,13 @@ import {
 } from 'firebase/auth';
 import { ActionContext } from 'vuex';
 import { IStateNotification } from '../Notification/types';
-import { IStateAuth, ISigninReturn } from './types';
+import {
+  IStateAuth,
+  ISigninReturn,
+  ICadasterModel,
+  EAuthErrorsMessage,
+} from './types';
 import { INotification } from '@/store/Notification/types';
-import { ICadasterModel, EAuthErrorsMessage } from '../Validation/types';
 
 let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
   GoogleAuthProvider;
@@ -45,6 +50,20 @@ export default {
   ): Promise<UserCredential> {
     return new Promise((resolve, reject) => {
       createUserWithEmailAndPassword(getAuth(), email, password)
+        .then((result: UserCredential) => {
+          resolve(result);
+        })
+        .catch((error: AuthError) => {
+          reject(getAuthErrorMessage(error.code));
+        });
+    });
+  },
+  signInCommom(
+    _: ActionContext<any, any>,
+    { email, password }: ICadasterModel,
+  ): Promise<UserCredential> {
+    return new Promise((resolve, reject) => {
+      signInWithEmailAndPassword(getAuth(), email, password)
         .then((result: UserCredential) => {
           resolve(result);
         })

@@ -39,9 +39,9 @@
             show-password-on="click"
           ></n-input>
         </n-form-item>
-        <n-space v-if="loginError" vertical style="margin-bottom: 14px">
-          <n-alert closable type="error" @on-close="loginError = null">
-            {{ loginError }}
+        <n-space v-if="cadasterError" vertical style="margin-bottom: 14px">
+          <n-alert closable type="error" @on-close="cadasterError = null">
+            {{ cadasterError }}
           </n-alert>
         </n-space>
         <n-space v-if="differentPasswords" vertical style="margin-bottom: 14px">
@@ -67,7 +67,7 @@
 
   const store = useStore();
 
-  let loginError = ref(null);
+  let cadasterError = ref(null);
   const cadasterForm = ref(null);
   const model = reactive({
     email: '',
@@ -86,7 +86,7 @@
   };
 
   function signUp() {
-    if (loginError.value) loginError.value = null;
+    if (cadasterError.value) cadasterError.value = null;
     cadasterForm.value?.validate((errors) => {
       if (!errors) {
         store
@@ -99,9 +99,7 @@
               },
             });
           })
-          .catch((error) => (loginError.value = error));
-      } else {
-        loginError.value = null;
+          .catch((error) => (cadasterError.value = error));
       }
     });
   }
