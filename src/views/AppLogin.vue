@@ -11,6 +11,10 @@
           }
         "
       ></AppLoginProviders>
+      <div class="app-login__cadaster">
+        Não possui uma conta?
+        <span @click="router.push({ name: 'Cadaster' })">Criar conta</span>.
+      </div>
       <n-space v-show="loginError" vertical style="margin-top: 14px">
         <n-alert type="error"> Tente novamente! </n-alert>
       </n-space>
@@ -51,6 +55,20 @@
       font-weight: bold;
       color: #919191;
       margin-top: 14px;
+    }
+
+    &__cadaster {
+      margin-top: 14px;
+      font-size: 12px;
+
+      span {
+        color: blue;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
     &__box {

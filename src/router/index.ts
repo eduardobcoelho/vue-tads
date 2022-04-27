@@ -5,6 +5,7 @@ import AppHome from '../views/AppHome.vue';
 import AppTad from '../views/AppTad.vue';
 import AppProfile from '../views/AppProfile.vue';
 import AppLogin from '../views/AppLogin.vue';
+import AppCadaster from '../views/AppCadaster.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -34,6 +35,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Login',
     component: AppLogin,
   },
+  {
+    path: '/cadaster',
+    name: 'Cadaster',
+    component: AppCadaster,
+  },
 ];
 
 const router = createRouter({
@@ -42,7 +48,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (!localStorage.getItem('token') && to.name != 'Login')
+  if (
+    !localStorage.getItem('token') &&
+    to.name != 'Login' &&
+    to.name != 'Cadaster'
+  )
     store.dispatch('logout', true);
 });
 
