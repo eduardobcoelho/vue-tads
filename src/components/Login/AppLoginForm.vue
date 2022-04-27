@@ -30,29 +30,42 @@
   </n-form>
 </template>
 
-<script lang="ts" setup>
-  import { reactive, ref, computed } from 'vue';
-  import { FormInst } from 'naive-ui';
-  import { ICadasterModel, IValidationsObject } from '@/store/Validation/types';
+<script setup>
+  import { reactive, ref, computed, defineEmits } from 'vue';
   import { useStore } from 'vuex';
 
+  const emit = defineEmits(['setLoginError']);
   const store = useStore();
 
-  const loginForm = ref<FormInst | null>(null);
-  const model = reactive<Partial<ICadasterModel>>({
+  const loginForm = ref(null);
+  const model = reactive({
     email: '',
     password: '',
   });
-  const validations = computed<IValidationsObject>(
-    () => store.getters.validations,
-  );
+  const validations = computed(() => store.getters.validations);
   const rules = {
     email: [validations.value.email, validations.value.required],
     password: validations.value.required,
   };
   function submitForm() {
+    emit('setLoginError', null);
     loginForm.value?.validate((errors) => {
-      console.log('errors: ', errors);
+      if (!errors) {
+        store
+          .dispatch('signInCommom', {
+            email: model.email,
+            password: model.password,
+          })
+          .then((result) => {
+            store.dispatch('setUserData', {
+              result,
+              credential: {
+                accessToken: result.user.accessToken,
+              },
+            });
+          })
+          .catch((error) => emit('setLoginError', error));
+      }
     });
   }
 </script>
