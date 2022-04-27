@@ -10,9 +10,6 @@
       <template v-if="provider === 'Google'">
         <LogoGoogle></LogoGoogle>
       </template>
-      <template v-else-if="provider === 'Facebook'">
-        <LogoFacebook></LogoFacebook>
-      </template>
       <template v-else>
         <LogoGithub></LogoGithub>
       </template>
@@ -25,14 +22,13 @@
   import { defineEmits, onMounted } from 'vue';
   import { useStore } from 'vuex';
   import { Icon } from '@vicons/utils';
-  import { LogoGoogle, LogoGithub, LogoFacebook } from '@vicons/carbon';
+  import { LogoGoogle, LogoGithub } from '@vicons/carbon';
 
   const emit = defineEmits(['setErrorStatus']);
   const store = useStore();
 
   const authOptions = [
     { provider: 'Google', color: '#DB4437' },
-    { provider: 'Facebook', color: '#4267B2' },
     { provider: 'Github', color: '#171515' },
   ];
 

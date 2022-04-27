@@ -1,16 +1,11 @@
 import router from '@/router';
-import {
-  GoogleProvider,
-  GithubProvider,
-  FacebookProvider,
-} from '@/plugins/firebase';
+import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
 import {
   getAuth,
   signInWithRedirect,
   getRedirectResult,
   GoogleAuthProvider,
   GithubAuthProvider,
-  FacebookAuthProvider,
   UserCredential,
   OAuthCredential,
   setPersistence,
@@ -21,14 +16,10 @@ import { IStateNotification } from '../Notification/types';
 import { IStateAuth, ISigninReturn } from './types';
 import { INotification } from '@/store/Notification/types';
 
-let authProvider:
-  | typeof GoogleAuthProvider
-  | typeof GithubAuthProvider
-  | typeof FacebookAuthProvider = GoogleAuthProvider;
-let authProviderInstance:
-  | GoogleAuthProvider
-  | GithubAuthProvider
-  | typeof FacebookProvider = GoogleProvider;
+let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
+  GoogleAuthProvider;
+let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
+  GoogleProvider;
 
 export default {
   signIn(_: ActionContext<IStateAuth, any>, provider = 'google'): void {
@@ -40,10 +31,6 @@ export default {
       case 'github':
         authProvider = GithubAuthProvider;
         authProviderInstance = GithubProvider;
-        break;
-      case 'facebook':
-        authProvider = FacebookAuthProvider;
-        authProviderInstance = FacebookProvider;
         break;
     }
     const auth = getAuth();
