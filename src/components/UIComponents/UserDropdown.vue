@@ -9,7 +9,17 @@
     >
       <div class="user-dropdown">
         <img
+          v-if="user.photoURL"
           :src="`${user.photoURL}`"
+          width="40"
+          height="40"
+          alt="Foto do usuário"
+          title="Foto do usuário"
+          referrerpolicy="no-referrer"
+        />
+        <img
+          v-else
+          src="@/assets/img/icons/icon-user-placeholder.svg"
           width="40"
           height="40"
           alt="Foto do usuário"

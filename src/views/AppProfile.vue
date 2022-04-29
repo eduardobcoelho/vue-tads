@@ -3,7 +3,17 @@
     <ButtonHome></ButtonHome>
     <div class="app-profile__image">
       <img
+        v-if="user.photoURL"
         :src="`${user.photoURL}`"
+        alt="Foto do usuário"
+        title="Foto do usuário"
+        width="150"
+        height="150"
+        referrerpolicy="no-referrer"
+      />
+      <img
+        v-else
+        src="@/assets/img/icons/icon-user-placeholder.svg"
         alt="Foto do usuário"
         title="Foto do usuário"
         width="150"
