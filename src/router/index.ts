@@ -6,6 +6,7 @@ import AppTad from '../views/AppTad.vue';
 import AppProfile from '../views/AppProfile.vue';
 import AppLogin from '../views/AppLogin.vue';
 import AppCadaster from '../views/AppCadaster.vue';
+import ForgotPassword from '../views/ForgotPassword.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,6 +41,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Cadaster',
     component: AppCadaster,
   },
+  {
+    path: '/forgot-password',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
+  },
 ];
 
 const router = createRouter({
@@ -51,7 +57,8 @@ router.beforeEach((to) => {
   if (
     !localStorage.getItem('token') &&
     to.name != 'Login' &&
-    to.name != 'Cadaster'
+    to.name != 'Cadaster' &&
+    to.name != 'ForgotPassword'
   )
     store.dispatch('logout', true);
 });

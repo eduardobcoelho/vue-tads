@@ -13,6 +13,7 @@ import {
   setPersistence,
   browserLocalPersistence,
   AuthError,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 import { ActionContext } from 'vuex';
 import { IStateNotification } from '../Notification/types';
@@ -144,6 +145,13 @@ export default {
       }, 500);
     }
     router.push({ name: 'Home' });
+  },
+  sendEmailToResetPassword(_: any, email: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      sendPasswordResetEmail(getAuth(), email)
+        .then((resp) => resolve(resp))
+        .catch((error) => reject(getAuthErrorMessage(error.code)));
+    });
   },
   logout(
     { commit }: ActionContext<IStateNotification, any>,

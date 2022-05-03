@@ -1,5 +1,6 @@
-import { IStateValidations } from './types';
+import { IStateValidations, IValidationsObject } from './types';
 
 export default {
-  validations: (state: IStateValidations) => state.validations,
+  validations: (state: IStateValidations): IValidationsObject =>
+    state.validations,
 };

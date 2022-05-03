@@ -11,7 +11,6 @@
         type="email"
         v-model:value="model.email"
         placeholder="Digite aqui..."
-        :rule="[rules.email]"
       ></n-input>
     </n-form-item>
     <n-form-item label="Senha" path="password" label-style="font-weight: bold;">
@@ -32,8 +31,9 @@
         <span
           @click="router.push({ name: 'ForgotPassword' })"
           class="app-login-form__forgot-password"
-          >Esqueci minha senha</span
         >
+          Esqueci minha senha
+        </span>
       </div>
     </n-form-item>
     <div class="app-login-form__actions">
@@ -47,8 +47,10 @@
 <script setup>
   import { reactive, ref, computed, defineEmits } from 'vue';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
 
   const emit = defineEmits(['setLoginError']);
+  const router = useRouter();
   const store = useStore();
 
   const loginForm = ref(null);
