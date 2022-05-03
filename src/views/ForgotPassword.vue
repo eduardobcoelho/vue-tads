@@ -30,6 +30,7 @@
   }
 
   h1 {
-    margin-bottom: 4px;
+    color: #757575;
+    margin-bottom: 6px;
   }
 </style>
