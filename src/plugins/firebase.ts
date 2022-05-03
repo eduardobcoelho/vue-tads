@@ -12,13 +12,13 @@ interface IFirebaseConfig {
 }
 
 const firebaseConfig: IFirebaseConfig = {
-  apiKey: 'AIzaSyBKCbQ3y13sHOkHUU0IX-dc9OqQEsaujeE',
-  authDomain: 'vue-tads.firebaseapp.com',
-  projectId: 'vue-tads',
-  storageBucket: 'vue-tads.appspot.com',
-  messagingSenderId: '37174221228',
-  appId: '1:37174221228:web:1c6cddd7bd00f2869dc209',
-  measurementId: 'G-FX6Q0XLSMX',
+  apiKey: process.env.VUE_APP_API_KEY,
+  authDomain: process.env.VUE_APP_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_APP_ID,
+  measurementId: process.env.VUE_APP_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
