@@ -15,12 +15,26 @@
       ></n-input>
     </n-form-item>
     <n-form-item label="Senha" path="password" label-style="font-weight: bold;">
-      <n-input
-        type="password"
-        v-model:value="model.password"
-        placeholder="Digite aqui..."
-        show-password-on="click"
-      ></n-input>
+      <div
+        style="
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        "
+      >
+        <n-input
+          type="password"
+          v-model:value="model.password"
+          placeholder="Digite aqui..."
+          show-password-on="click"
+        ></n-input>
+        <span
+          @click="router.push({ name: 'ForgotPassword' })"
+          class="app-login-form__forgot-password"
+          >Esqueci minha senha</span
+        >
+      </div>
     </n-form-item>
     <div class="app-login-form__actions">
       <n-button @click="submitForm" color="black" type="primary">
@@ -74,7 +88,20 @@
   .app-login-form {
     text-align: start;
 
+    &__forgot-password {
+      font-size: 12px;
+      color: blue;
+      cursor: pointer;
+      position: absolute;
+      bottom: -24px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
     &__actions {
+      margin-top: 12px;
       text-align: center;
     }
   }
