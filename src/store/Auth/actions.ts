@@ -14,6 +14,9 @@ import {
   browserLocalPersistence,
   AuthError,
   sendPasswordResetEmail,
+  updateProfile,
+  User,
+  Auth,
 } from 'firebase/auth';
 import { ActionContext } from 'vuex';
 import { IStateNotification } from '../Notification/types';
@@ -151,6 +154,39 @@ export default {
       sendPasswordResetEmail(getAuth(), email)
         .then((resp) => resolve(resp))
         .catch((error) => reject(getAuthErrorMessage(error.code)));
+    });
+  },
+  updateUserProfile(
+    { commit }: ActionContext<IStateNotification, IStateAuth>,
+    payload: Partial<User>,
+  ): Promise<Auth | false | string> {
+    return new Promise((resolve, reject) => {
+      const auth: Auth = getAuth();
+      if (auth.currentUser) {
+        updateProfile(auth.currentUser, payload)
+          .then(() => {
+            commit('setNotification', {
+              type: 'success',
+              message: 'Usuário atualizado com sucesso!',
+            });
+            resolve(auth);
+          })
+          .catch((error) => {
+            const errorMessage: string = getAuthErrorMessage(error.code);
+            commit('setNotification', {
+              type: 'success',
+              message: errorMessage,
+            });
+            reject(getAuthErrorMessage(errorMessage));
+          });
+      } else {
+        commit('setNotification', {
+          type: 'error',
+          message:
+            'Não foi possível atualizar este usuário. Por favor, logue novamente para efetuar a ação!',
+        });
+        reject(false);
+      }
     });
   },
   logout(

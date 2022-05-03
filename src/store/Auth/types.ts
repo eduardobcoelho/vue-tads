@@ -11,7 +11,7 @@ export interface IStateAuth {
 export interface IUser {
   name: string | null;
   email: string;
-  photoURL?: URL | null;
+  photoURL?: URL | null | string;
 }
 
 export interface ISigninReturn {
