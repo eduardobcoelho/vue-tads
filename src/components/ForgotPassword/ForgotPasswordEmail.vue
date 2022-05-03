@@ -20,7 +20,7 @@
       {{ loginError }}
     </n-alert>
     <div @click="submitForm" style="text-align: center; margin-top: 4px">
-      <n-button tertiary type="primary">Avançar</n-button>
+      <n-button tertiary type="primary" :loading="loading">Avançar</n-button>
     </div>
   </div>
 </template>
