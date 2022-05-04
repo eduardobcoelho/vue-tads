@@ -11,6 +11,7 @@
         type="email"
         v-model:value="model.email"
         placeholder="Digite aqui..."
+        @keyup.enter="submitForm"
       ></n-input>
     </n-form-item>
     <n-form-item label="Senha" path="password" label-style="font-weight: bold;">
@@ -27,6 +28,7 @@
           v-model:value="model.password"
           placeholder="Digite aqui..."
           show-password-on="click"
+          @keyup.enter="submitForm"
         ></n-input>
         <span
           @click="router.push({ name: 'ForgotPassword' })"
