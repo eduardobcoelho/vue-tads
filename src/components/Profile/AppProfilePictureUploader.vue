@@ -1,7 +1,7 @@
 <template>
   <div id="profile-picture-uploader" @click="uploaderClick">
     <img
-      v-show="!props.photoURL && !newPhotoBase64"
+      v-show="!props.photoURL && !photoBase64"
       src="@/assets/img/icons/icon-user-placeholder.svg"
       alt="placeholder"
       title="placeholder"
@@ -19,15 +19,16 @@
 </template>
 
 <script setup lang="ts">
-  import { defineProps, ref, onMounted } from 'vue';
+  import { defineProps, defineEmits, ref, onMounted } from 'vue';
 
   interface IProps {
     photoURL: URL | null | string;
   }
   const props = defineProps<IProps>();
+  const emit = defineEmits(['setPhotoURL']);
 
-  const newPhotoBase64 = ref<string | ArrayBuffer | null>(null);
-  const newPhotoBlob = ref<Blob | null>(null);
+  const photoBase64 = ref<string | ArrayBuffer | null>(null);
+  const photoBlob = ref<Blob | null>(null);
   const ProfilePictureUploaderInput = ref<HTMLInputElement | null>(null);
   function verifyPhotoURL() {
     const uploader = document.getElementById('profile-picture-uploader');
@@ -43,22 +44,23 @@
       ProfilePictureUploaderInput.value &&
       ProfilePictureUploaderInput.value.files
     ) {
-      newPhotoBlob.value = ProfilePictureUploaderInput.value.files[0];
+      photoBlob.value = ProfilePictureUploaderInput.value.files[0];
+      emit('setPhotoURL', photoBlob.value);
       setImageBase64();
     }
   }
   function setImageBase64() {
     const fileReader = new FileReader();
     fileReader.addEventListener('load', () => {
-      newPhotoBase64.value = fileReader.result;
+      photoBase64.value = fileReader.result;
       setUploaderBackground();
     });
-    if (newPhotoBlob.value) fileReader.readAsDataURL(newPhotoBlob.value);
+    if (photoBlob.value) fileReader.readAsDataURL(photoBlob.value);
   }
   function setUploaderBackground() {
     const uploader = document.getElementById('profile-picture-uploader');
-    if (uploader && newPhotoBase64.value) {
-      uploader.style.backgroundImage = `url(${newPhotoBase64.value})`;
+    if (uploader && photoBase64.value) {
+      uploader.style.backgroundImage = `url(${photoBase64.value})`;
     }
   }
   onMounted(() => verifyPhotoURL());

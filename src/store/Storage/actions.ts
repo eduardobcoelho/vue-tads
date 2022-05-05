@@ -5,7 +5,7 @@ import { ref, uploadBytes } from 'firebase/storage';
 
 export default {
   uploaderUserProfileImage(
-    { commit }: ActionContext<any, any>,
+    { commit }: ActionContext<void, void>,
     payload: IProfileUploadImage,
   ): Promise<boolean> {
     const userStorage = ref(storage, `users/${payload.uid}/profile.jpg`);
