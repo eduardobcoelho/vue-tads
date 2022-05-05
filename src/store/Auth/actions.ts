@@ -19,13 +19,7 @@ import {
   Auth,
 } from 'firebase/auth';
 import { ActionContext } from 'vuex';
-import { IStateNotification } from '../Notification/types';
-import {
-  IStateAuth,
-  ISigninReturn,
-  ICadasterModel,
-  EAuthErrorsMessage,
-} from './types';
+import { ISigninReturn, ICadasterModel, EAuthErrorsMessage } from './types';
 import { INotification } from '@/store/Notification/types';
 
 let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
@@ -57,7 +51,7 @@ const getAuthErrorMessage = (errorCode: string): string => {
 
 export default {
   signUp(
-    _: ActionContext<any, any>,
+    _: ActionContext<void, void>,
     { email, password }: ICadasterModel,
   ): Promise<UserCredential> {
     return new Promise((resolve, reject) => {
@@ -71,7 +65,7 @@ export default {
     });
   },
   signInCommom(
-    _: ActionContext<any, any>,
+    _: ActionContext<void, void>,
     { email, password }: ICadasterModel,
   ): Promise<UserCredential> {
     return new Promise((resolve, reject) => {
@@ -84,7 +78,7 @@ export default {
         });
     });
   },
-  signIn(_: ActionContext<IStateAuth, any>, provider = 'google'): void {
+  signIn(_: ActionContext<void, void>, provider = 'google'): void {
     switch (provider) {
       case 'google':
         authProvider = GoogleAuthProvider;
@@ -102,7 +96,7 @@ export default {
   },
   redirectResult({
     dispatch,
-  }: ActionContext<IStateAuth, any>): Promise<ISigninReturn | null> {
+  }: ActionContext<any, any>): Promise<ISigninReturn | null> {
     return new Promise((resolve, reject) => {
       getRedirectResult(getAuth())
         .then((result: UserCredential | null) => {
@@ -126,7 +120,7 @@ export default {
     });
   },
   setUserData(
-    { commit }: ActionContext<IStateAuth, any>,
+    { commit }: ActionContext<any, any>,
     { result, credential }: ISigninReturn,
   ): void {
     const accessToken: string | undefined = credential
@@ -134,6 +128,7 @@ export default {
       : undefined;
     const { displayName = null, email, photoURL = null } = result.user;
     commit('setUser', {
+      uid: result.user.uid,
       name: displayName,
       email,
       photoURL,
@@ -149,7 +144,10 @@ export default {
     }
     router.push({ name: 'Home' });
   },
-  sendEmailToResetPassword(_: any, email: string): Promise<void> {
+  sendEmailToResetPassword(
+    _: ActionContext<void, void>,
+    email: string,
+  ): Promise<void> {
     return new Promise((resolve, reject) => {
       sendPasswordResetEmail(getAuth(), email)
         .then((resp) => resolve(resp))
@@ -157,7 +155,7 @@ export default {
     });
   },
   updateUserProfile(
-    { commit }: ActionContext<IStateNotification, IStateAuth>,
+    { commit }: ActionContext<any, any>,
     payload: Partial<User>,
   ): Promise<Auth | false | string> {
     return new Promise((resolve, reject) => {
@@ -190,7 +188,7 @@ export default {
     });
   },
   logout(
-    { commit }: ActionContext<IStateNotification, any>,
+    { commit }: ActionContext<any, any>,
     isForce: boolean,
   ): Promise<string> {
     try {

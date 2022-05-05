@@ -1,14 +1,15 @@
 import { initializeApp } from 'firebase/app';
 import { GoogleAuthProvider, GithubAuthProvider } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
 interface IFirebaseConfig {
-  apiKey: string;
-  authDomain: string;
-  projectId: string;
-  storageBucket: string;
-  messagingSenderId: string;
-  appId: string;
-  measurementId: string;
+  apiKey: string | undefined;
+  authDomain: string | undefined;
+  projectId: string | undefined;
+  storageBucket: string | undefined;
+  messagingSenderId: string | undefined;
+  appId: string | undefined;
+  measurementId: string | undefined;
 }
 
 const firebaseConfig: IFirebaseConfig = {
@@ -26,4 +27,6 @@ const app = initializeApp(firebaseConfig);
 const GoogleProvider: GoogleAuthProvider = new GoogleAuthProvider();
 const GithubProvider: GithubAuthProvider = new GithubAuthProvider();
 
-export { app, GoogleProvider, GithubProvider };
+const storage = getStorage(app);
+
+export { app, GoogleProvider, GithubProvider, storage };
