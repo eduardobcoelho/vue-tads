@@ -1,16 +1,16 @@
 import { storage } from '@/plugins/firebase';
 import { IProfileUploadImage } from './types';
 import { ActionContext } from 'vuex';
-import { ref, uploadBytes } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export default {
   uploaderUserProfileImage(
     { commit }: ActionContext<void, void>,
-    payload: IProfileUploadImage,
+    { uid, file }: IProfileUploadImage,
   ): Promise<boolean> {
-    const userStorage = ref(storage, `users/${payload.uid}/profile.jpg`);
+    const userStorage = ref(storage, `users/${uid}/profile.jpg`);
     return new Promise((resolve, reject) => {
-      uploadBytes(userStorage, payload.file)
+      uploadBytes(userStorage, file)
         .then(() => resolve(true))
         .catch((error) => {
           commit('setNotification', {
@@ -19,6 +19,16 @@ export default {
           });
           reject(error);
         });
+    });
+  },
+  getUserProfileImage(
+    _: ActionContext<void, void>,
+    userUid: string,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      getDownloadURL(ref(storage, `users/${userUid}/profile.jpg`)).then(
+        (url: string) => resolve(url),
+      );
     });
   },
 };

@@ -30,14 +30,21 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive, ref, withDefaults, defineProps, computed } from 'vue';
+  import {
+    reactive,
+    ref,
+    withDefaults,
+    defineProps,
+    defineEmits,
+    computed,
+  } from 'vue';
   import { useStore } from 'vuex';
-  import { User, Auth } from 'firebase/auth';
+  import { User } from 'firebase/auth';
   import { IValidationsObject } from '@/store/Validation/types';
-  import { IUser } from '@/store/Auth/types';
   import { FormInst } from 'naive-ui';
 
   interface IProps {
+    loading: boolean;
     name?: string | null;
     email: string;
   }
@@ -45,6 +52,8 @@
     name: '',
   });
   const store = useStore();
+  const emit = defineEmits(['submitForm']);
+
   const appProfileForm = ref<FormInst | null>(null);
   const model = reactive<Partial<User>>({
     displayName: props.name,
@@ -53,31 +62,14 @@
   const validations = computed<IValidationsObject>(
     () => store.getters.validations,
   );
-  const user = computed<IUser>(() => store.getters.user);
   const rules = {
     displayName: [validations.value.required],
     email: [validations.value.required, validations.value.email],
   };
-  const loading = ref<boolean>(false);
   function submitForm() {
     appProfileForm.value?.validate((errors) => {
-      if (!errors) {
-        loading.value = true;
-        store
-          .dispatch('updateUserProfile', model)
-          .then(({ currentUser }: Auth | null) => {
-            if (currentUser) setUserNewData(currentUser);
-          })
-          .finally(() => (loading.value = false));
-      }
+      if (!errors) emit('submitForm', model.displayName);
     });
-  }
-  function setUserNewData(newUser: User) {
-    const newUserData: IUser = user.value;
-    newUserData.name = newUser.displayName;
-    newUserData.photoURL = newUser.photoURL;
-    if (newUser.email) newUserData.email = newUser.email;
-    store.commit('setUser', newUserData);
   }
 </script>
 

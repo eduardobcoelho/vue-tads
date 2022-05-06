@@ -22,10 +22,10 @@
   import { defineProps, defineEmits, ref, onMounted } from 'vue';
 
   interface IProps {
-    photoURL: URL | null | string;
+    photoURL?: null | string;
   }
   const props = defineProps<IProps>();
-  const emit = defineEmits(['setPhotoURL']);
+  const emit = defineEmits(['setPhotoBlob']);
 
   const photoBase64 = ref<string | ArrayBuffer | null>(null);
   const photoBlob = ref<Blob | null>(null);
@@ -45,7 +45,7 @@
       ProfilePictureUploaderInput.value.files
     ) {
       photoBlob.value = ProfilePictureUploaderInput.value.files[0];
-      emit('setPhotoURL', photoBlob.value);
+      emit('setPhotoBlob', photoBlob.value);
       setImageBase64();
     }
   }
