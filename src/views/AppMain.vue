@@ -1,5 +1,5 @@
 <template>
-  <main id="app-main tad-default-box">
+  <main id="app-main">
     <template v-if="route.name != 'Login' && user && route.name != 'Profile'">
       <UserDropdown></UserDropdown>
     </template>
@@ -24,9 +24,3 @@
     naiveMessage[type](message);
   });
 </script>
-
-<style>
-  #app-main {
-    background-color: #f2f2f2;
-  }
-</style>
