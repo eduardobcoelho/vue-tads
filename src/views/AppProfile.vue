@@ -42,8 +42,9 @@
     newUserModel.photoURL = await uploaderUserPhoto();
     store
       .dispatch('updateUserProfile', newUserModel)
-      .then(({ currentUser }: Auth | null) => {
-        if (currentUser) setNewUserDataOnStore(currentUser);
+      .then((firebaseAuth: Auth | null) => {
+        if (firebaseAuth && firebaseAuth.currentUser)
+          setNewUserDataOnStore(firebaseAuth.currentUser);
       })
       .finally(() => (loading.value = false));
   }
