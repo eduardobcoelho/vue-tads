@@ -1,7 +1,7 @@
 <template>
   <main id="app-main tad-default-box">
-    <template v-if="route.name != 'Login' && user">
-      <UserDropdown v-show="route.name != 'Profile'"></UserDropdown>
+    <template v-if="route.name != 'Login' && user && route.name != 'Profile'">
+      <UserDropdown></UserDropdown>
     </template>
     <router-view></router-view>
   </main>
