@@ -15,11 +15,16 @@
       @change="onPickFile"
       style="display: none"
     />
+    <Icon size="24" color="#e0e0e0" id="edit-icon">
+      <PencilAlt></PencilAlt>
+    </Icon>
   </div>
 </template>
 
 <script setup lang="ts">
   import { defineProps, defineEmits, ref, onMounted } from 'vue';
+  import { Icon } from '@vicons/utils';
+  import { PencilAlt } from '@vicons/fa';
 
   interface IProps {
     photoURL?: null | string;
@@ -77,5 +82,19 @@
     background-position: center;
     background-size: 100%;
     cursor: pointer;
+    position: relative;
+
+    #edit-icon {
+      display: none;
+      position: absolute;
+      bottom: 0px;
+      left: 24px;
+    }
+
+    &:hover {
+      #edit-icon {
+        display: inline;
+      }
+    }
   }
 </style>
