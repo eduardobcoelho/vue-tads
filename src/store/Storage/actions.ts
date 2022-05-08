@@ -25,10 +25,10 @@ export default {
     _: ActionContext<void, void>,
     userUid: string,
   ): Promise<string> {
-    return new Promise((resolve) => {
-      getDownloadURL(ref(storage, `users/${userUid}/profile.jpg`)).then(
-        (url: string) => resolve(url),
-      );
+    return new Promise((resolve, reject) => {
+      getDownloadURL(ref(storage, `users/${userUid}/profile.jpg`))
+        .then((url: string) => resolve(url))
+        .catch((error) => reject(error));
     });
   },
 };
