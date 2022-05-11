@@ -79,17 +79,12 @@
     min-width: 280px;
     max-width: 320px;
     text-align: start;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(column, center, center);
 
     &__input {
       width: 100%;
       margin-top: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      @include displayFlex(column, auto, flex-start);
 
       span {
         margin-bottom: 4px;

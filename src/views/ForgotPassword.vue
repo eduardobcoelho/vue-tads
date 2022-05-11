@@ -21,12 +21,9 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .forgot-password {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(column, center, center);
   }
 
   h1 {

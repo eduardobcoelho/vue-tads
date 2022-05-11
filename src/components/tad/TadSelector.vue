@@ -33,9 +33,8 @@
   .tad-selector {
     width: 100%;
     max-width: 400px;
-    display: flex;
+    @include displayFlex(row, space-around, flex-start);
     flex-wrap: wrap;
-    justify-content: space-around;
     margin-top: 20px;
 
     &__button {

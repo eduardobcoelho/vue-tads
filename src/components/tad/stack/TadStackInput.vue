@@ -41,8 +41,6 @@
 
 <style lang="scss" scoped>
   .actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(row, center, center);
   }
 </style>

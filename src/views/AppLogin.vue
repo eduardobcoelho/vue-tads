@@ -44,10 +44,7 @@
 
 <style lang="scss" scoped>
   .app-login {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(column, center, center);
 
     h4 {
       color: #757575;

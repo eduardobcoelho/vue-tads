@@ -38,10 +38,7 @@
 
 <style lang="scss" scoped>
   .tad-stack {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(column, center, center);
     padding: 14px 10px;
 
     &__display {
