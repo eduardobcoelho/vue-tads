@@ -21,10 +21,22 @@
         <n-input v-model:value="model.email" type="email" disabled />
       </n-form-item>
     </div>
-    <div style="margin-top: 14px">
-      <n-button tertiary type="primary" :loading="loading" @click="submitForm">
-        Salvar alterações
-      </n-button>
+    <div class="app-profile-form__actions">
+      <div>
+        <n-button @click="openDrawer" tertiary type="primary">
+          Alterar senha
+        </n-button>
+      </div>
+      <div>
+        <n-button
+          tertiary
+          type="primary"
+          :loading="loading"
+          @click="submitForm"
+        >
+          Salvar alterações
+        </n-button>
+      </div>
     </div>
   </n-form>
 </template>
@@ -52,7 +64,7 @@
     name: '',
   });
   const store = useStore();
-  const emit = defineEmits(['submitForm']);
+  const emit = defineEmits(['submitForm', 'openDrawer']);
 
   const appProfileForm = ref<FormInst | null>(null);
   const model = reactive<Partial<User>>({
@@ -66,6 +78,9 @@
     displayName: [validations.value.required],
     email: [validations.value.required, validations.value.email],
   };
+  function openDrawer() {
+    emit('openDrawer');
+  }
   function submitForm() {
     appProfileForm.value?.validate((errors) => {
       if (!errors) emit('submitForm', model.displayName);
@@ -90,6 +105,17 @@
         margin-bottom: 4px;
         font-weight: bold;
         color: $grey;
+      }
+    }
+
+    &__actions {
+      margin-top: 14px;
+      @include displayFlex(row, center, center);
+
+      div {
+        &:first-child {
+          margin-right: 14px;
+        }
       }
     }
   }

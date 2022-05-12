@@ -10,7 +10,20 @@
       :name="user.name"
       :email="user.email"
       @submitForm="submitForm"
+      @openDrawer="changePasswordDrawer = true"
     ></AppProfileForm>
+    <n-drawer
+      v-model:show="changePasswordDrawer"
+      :width="502"
+      placement="right"
+    >
+      <n-drawer-content title="Alterar senha">
+        <AppProfileChangePassword
+          v-if="changePasswordDrawer"
+          @closeDrawer="changePasswordDrawer = false"
+        ></AppProfileChangePassword>
+      </n-drawer-content>
+    </n-drawer>
   </div>
 </template>
 
@@ -19,11 +32,13 @@
   import { useStore } from 'vuex';
   import { User, Auth } from 'firebase/auth';
   import { IUser } from '@/store/Auth/types';
+  import AppProfileChangePassword from '@/components/Profile/AppProfileChangePassword.vue';
   import AppProfileForm from '@/components/Profile/AppProfileForm.vue';
   import AppProfilePictureUploader from '@/components/Profile/AppProfilePictureUploader.vue';
 
   const store = useStore();
   const user = computed<IUser>(() => store.getters.user);
+  const changePasswordDrawer = ref<boolean>(false);
   const newUserModel = reactive<{
     displayName: string | null;
     photoURL?: Blob | string | null;
