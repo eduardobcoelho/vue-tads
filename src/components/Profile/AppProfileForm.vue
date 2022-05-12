@@ -89,7 +89,7 @@
       span {
         margin-bottom: 4px;
         font-weight: bold;
-        color: #757575;
+        color: $grey;
       }
     }
   }

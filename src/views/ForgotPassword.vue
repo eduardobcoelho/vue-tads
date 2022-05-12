@@ -27,7 +27,7 @@
   }
 
   h1 {
-    color: #757575;
+    color: $grey;
     margin-bottom: 6px;
   }
 </style>

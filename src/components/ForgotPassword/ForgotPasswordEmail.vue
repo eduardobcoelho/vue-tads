@@ -64,9 +64,9 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   h3 {
     margin-bottom: 14px;
-    color: #757575;
+    color: $grey;
   }
 </style>

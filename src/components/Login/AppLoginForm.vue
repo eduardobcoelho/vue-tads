@@ -92,7 +92,7 @@
 
     &__forgot-password {
       font-size: 12px;
-      color: blue;
+      color: $blue;
       cursor: pointer;
       position: absolute;
       bottom: -24px;
