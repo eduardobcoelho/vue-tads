@@ -21,10 +21,20 @@
         <n-input v-model:value="model.email" type="email" disabled />
       </n-form-item>
     </div>
-    <div style="margin-top: 14px">
-      <n-button tertiary type="primary" :loading="loading" @click="submitForm">
-        Salvar alterações
-      </n-button>
+    <div class="app-profile-form__actions">
+      <div>
+        <n-button tertiary type="primary"> Alterar senha </n-button>
+      </div>
+      <div>
+        <n-button
+          tertiary
+          type="primary"
+          :loading="loading"
+          @click="submitForm"
+        >
+          Salvar alterações
+        </n-button>
+      </div>
     </div>
   </n-form>
 </template>
@@ -90,6 +100,17 @@
         margin-bottom: 4px;
         font-weight: bold;
         color: $grey;
+      }
+    }
+
+    &__actions {
+      margin-top: 14px;
+      @include displayFlex(row, center, center);
+
+      div {
+        &:first-child {
+          margin-right: 14px;
+        }
       }
     }
   }
