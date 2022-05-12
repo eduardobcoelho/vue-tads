@@ -30,9 +30,9 @@
   const router = useRouter();
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   h3,
   h4 {
-    color: lightgreen;
+    color: $light-green;
   }
 </style>

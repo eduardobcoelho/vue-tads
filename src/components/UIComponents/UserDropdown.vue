@@ -90,9 +90,7 @@
     border: 1px solid #1a1a1a;
     overflow: hidden;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(row, center, center);
     position: fixed;
     top: 15px;
     right: 15px;

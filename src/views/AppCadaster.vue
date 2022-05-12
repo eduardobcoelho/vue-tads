@@ -107,10 +107,7 @@
 
 <style lang="scss" scoped>
   .app-cadaster {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(column, center, center);
     text-align: start;
 
     &__box {

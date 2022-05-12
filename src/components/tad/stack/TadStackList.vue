@@ -34,6 +34,6 @@
   }
 
   span {
-    color: #afafaf;
+    color: $light-grey;
   }
 </style>

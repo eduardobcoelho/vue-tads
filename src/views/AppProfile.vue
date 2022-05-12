@@ -77,9 +77,6 @@
 
 <style lang="scss" scoped>
   .app-profile {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(column, center, center);
   }
 </style>

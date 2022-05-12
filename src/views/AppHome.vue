@@ -13,9 +13,6 @@
 
 <style lang="scss">
   .app-home {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(column, center, center);
   }
 </style>

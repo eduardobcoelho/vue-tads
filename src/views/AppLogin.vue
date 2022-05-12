@@ -44,19 +44,16 @@
 
 <style lang="scss" scoped>
   .app-login {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include displayFlex(column, center, center);
 
     h4 {
-      color: #757575;
+      color: $grey;
       margin-bottom: 14px;
     }
 
     &__btn-or {
       font-weight: bold;
-      color: #919191;
+      color: $light-grey;
       margin-top: 14px;
     }
 
@@ -65,7 +62,7 @@
       font-size: 12px;
 
       span {
-        color: blue;
+        color: $blue;
         cursor: pointer;
 
         &:hover {

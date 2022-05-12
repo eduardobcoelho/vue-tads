@@ -15,14 +15,7 @@
       ></n-input>
     </n-form-item>
     <n-form-item label="Senha" path="password" label-style="font-weight: bold;">
-      <div
-        style="
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: flex-end;
-        "
-      >
+      <div class="app-login-form__content-input-password">
         <n-input
           type="password"
           v-model:value="model.password"
@@ -92,9 +85,14 @@
   .app-login-form {
     text-align: start;
 
+    &__content-input-password {
+      width: 100%;
+      @include displayFlex(column, auto, flex-end);
+    }
+
     &__forgot-password {
       font-size: 12px;
-      color: blue;
+      color: $blue;
       cursor: pointer;
       position: absolute;
       bottom: -24px;
