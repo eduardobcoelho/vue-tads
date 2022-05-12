@@ -23,7 +23,9 @@
     </div>
     <div class="app-profile-form__actions">
       <div>
-        <n-button tertiary type="primary"> Alterar senha </n-button>
+        <n-button @click="openDrawer" tertiary type="primary">
+          Alterar senha
+        </n-button>
       </div>
       <div>
         <n-button
@@ -62,7 +64,7 @@
     name: '',
   });
   const store = useStore();
-  const emit = defineEmits(['submitForm']);
+  const emit = defineEmits(['submitForm', 'openDrawer']);
 
   const appProfileForm = ref<FormInst | null>(null);
   const model = reactive<Partial<User>>({
@@ -76,6 +78,9 @@
     displayName: [validations.value.required],
     email: [validations.value.required, validations.value.email],
   };
+  function openDrawer() {
+    emit('openDrawer');
+  }
   function submitForm() {
     appProfileForm.value?.validate((errors) => {
       if (!errors) emit('submitForm', model.displayName);

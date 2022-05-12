@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithRedirect,
   signInWithEmailAndPassword,
+  updatePassword,
   getRedirectResult,
   GoogleAuthProvider,
   GithubAuthProvider,
@@ -152,6 +153,25 @@ export default {
       sendPasswordResetEmail(getAuth(), email)
         .then((resp) => resolve(resp))
         .catch((error) => reject(getAuthErrorMessage(error.code)));
+    });
+  },
+  updateUserPassword(
+    { commit }: ActionContext<any, any>,
+    payload: string,
+  ): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const { currentUser } = getAuth();
+      if (currentUser) {
+        updatePassword(currentUser, payload)
+          .then(() => {
+            commit('setNotification', {
+              type: 'success',
+              message: 'Senha alterada com sucesso!',
+            });
+            resolve(true);
+          })
+          .catch((error) => reject(getAuthErrorMessage(error.code)));
+      }
     });
   },
   updateUserProfile(
