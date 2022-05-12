@@ -22,16 +22,21 @@
     <n-alert v-if="error" type="error" style="margin-bottom: 14px">
       {{ error }}
     </n-alert>
-    <div style="margin-top: 14px">
-      <n-button
-        tertiary
-        type="primary"
-        :disabled="differentPasswords"
-        :loading="loading"
-        @click="submitForm"
-      >
-        Salvar alterações
-      </n-button>
+    <div id="change-password-form-actions">
+      <div>
+        <n-button tertiary type="error" @click="closeDrawer"> Fechar </n-button>
+      </div>
+      <div>
+        <n-button
+          tertiary
+          type="primary"
+          :disabled="differentPasswords"
+          :loading="loading"
+          @click="submitForm"
+        >
+          Salvar alterações
+        </n-button>
+      </div>
     </div>
   </n-form>
 </template>
@@ -62,6 +67,9 @@
     password: [validations.value.required],
     passwordConfirm: [validations.value.required],
   };
+  function closeDrawer() {
+    emit('closeDrawer');
+  }
   function submitForm() {
     error.value = '';
     changePasswordForm.value?.validate((errors) => {
@@ -69,10 +77,24 @@
         loading.value = true;
         store
           .dispatch('updateUserPassword', model.password)
-          .then(() => emit('closeDrawer'))
+          .then(() => closeDrawer())
           .catch((errorMessage: string) => (error.value = errorMessage))
           .finally(() => (loading.value = false));
       }
     });
   }
 </script>
+
+<style lang="scss" scoped>
+  #change-password-form-actions {
+    width: 100%;
+    margin-top: 14px;
+    @include displayFlex(row, flex-end, center);
+
+    div {
+      &:first-child {
+        margin-right: 14px;
+      }
+    }
+  }
+</style>
