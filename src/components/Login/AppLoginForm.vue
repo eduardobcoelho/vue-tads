@@ -53,7 +53,7 @@
     email: '',
     password: '',
   });
-  const validations = computed(() => store.getters.validations);
+  const validations = computed(() => store.getters.getValidations);
   const rules = {
     email: [validations.value.email, validations.value.required],
     password: validations.value.required,

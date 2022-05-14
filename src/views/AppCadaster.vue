@@ -64,6 +64,7 @@
 <script setup>
   import { reactive, computed, ref } from 'vue';
   import { useStore } from 'vuex';
+  import { useValidations } from '@/composable';
 
   const store = useStore();
 
@@ -74,15 +75,14 @@
     password: '',
     confirmPassword: '',
   });
-  const validations = computed(() => store.getters.validations);
   const differentPasswords = computed(() => {
     if (!model.password || !model.confirmPassword) return false;
     return model.password != model.confirmPassword;
   });
   const rules = {
-    email: [validations.value.email, validations.value.required],
-    password: validations.value.required,
-    confirmPassword: validations.value.required,
+    email: useValidations('required', 'email'),
+    password: useValidations('required'),
+    confirmPassword: useValidations('required'),
   };
 
   function signUp() {

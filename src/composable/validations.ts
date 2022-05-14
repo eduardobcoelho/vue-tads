@@ -6,7 +6,7 @@ import { IValidationsObject } from '@/types';
 const store = useStore();
 
 const allValidations = computed<IValidationsObject>(
-  () => store.getters.validations,
+  () => store.getters.getValidations,
 );
 
 export function useValidations(...validations: string[]): FormItemRule[] {
