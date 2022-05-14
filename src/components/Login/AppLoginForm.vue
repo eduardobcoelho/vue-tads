@@ -43,6 +43,7 @@
   import { reactive, ref, computed, defineEmits } from 'vue';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
+  import { useValidations } from '@/composable';
 
   const emit = defineEmits(['setLoginError']);
   const router = useRouter();
@@ -53,10 +54,9 @@
     email: '',
     password: '',
   });
-  const validations = computed(() => store.getters.getValidations);
   const rules = {
-    email: [validations.value.email, validations.value.required],
-    password: validations.value.required,
+    email: useValidations('required', 'email'),
+    password: useValidations('required'),
   };
   function submitForm() {
     emit('setLoginError', null);
