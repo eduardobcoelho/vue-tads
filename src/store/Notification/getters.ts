@@ -1,4 +1,4 @@
-import { INotification, IStateNotification } from './types';
+import { INotification, IStateNotification } from '@/types';
 
 export default {
   notification: (state: IStateNotification): INotification | null =>

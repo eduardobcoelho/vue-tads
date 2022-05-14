@@ -20,8 +20,8 @@ import {
   Auth,
 } from 'firebase/auth';
 import { ActionContext } from 'vuex';
-import { ISigninReturn, ICadasterModel, EAuthErrorsMessage } from './types';
-import { INotification } from '@/store/Notification/types';
+import { ISigninReturn, ICadasterModel, INotification } from '@/types';
+import { EAuthErrorsMessage } from '@/enums';
 
 let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
   GoogleAuthProvider;

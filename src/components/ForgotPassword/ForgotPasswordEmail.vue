@@ -28,7 +28,7 @@
 <script lang="ts" setup>
   import { ref, computed, reactive, defineEmits } from 'vue';
   import { useStore } from 'vuex';
-  import { IValidationsObject } from '@/store/Validation/types';
+  import { IValidationsObject } from '@/types';
   import { FormInst } from 'naive-ui';
 
   const store = useStore();

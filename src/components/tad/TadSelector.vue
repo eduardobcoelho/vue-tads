@@ -17,7 +17,7 @@
   import { computed } from 'vue';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
-  import { ITAD } from '@/store/TAD/types';
+  import { ITAD } from '@/types';
 
   const store = useStore();
   const router = useRouter();

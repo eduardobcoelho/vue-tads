@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { IUser } from '@/store/Auth/types';
+  import { IUser } from '@/types';
   import { h, computed, Component, onMounted } from 'vue';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';

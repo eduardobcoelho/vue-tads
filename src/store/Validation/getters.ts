@@ -1,4 +1,4 @@
-import { IStateValidations, IValidationsObject } from './types';
+import { IStateValidations, IValidationsObject } from '@/types';
 
 export default {
   validations: (state: IStateValidations): IValidationsObject =>
