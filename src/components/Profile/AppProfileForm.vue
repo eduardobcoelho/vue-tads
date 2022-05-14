@@ -52,7 +52,7 @@
   } from 'vue';
   import { useStore } from 'vuex';
   import { User } from 'firebase/auth';
-  import { IValidationsObject } from '@/store/Validation/types';
+  import { IValidationsObject } from '@/types';
   import { FormInst } from 'naive-ui';
 
   interface IProps {

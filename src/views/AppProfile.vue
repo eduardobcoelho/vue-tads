@@ -31,7 +31,7 @@
   import { computed, ref, reactive } from 'vue';
   import { useStore } from 'vuex';
   import { User, Auth } from 'firebase/auth';
-  import { IUser } from '@/store/Auth/types';
+  import { IUser } from '@/types';
   import AppProfileChangePassword from '@/components/Profile/AppProfileChangePassword.vue';
   import AppProfileForm from '@/components/Profile/AppProfileForm.vue';
   import AppProfilePictureUploader from '@/components/Profile/AppProfilePictureUploader.vue';

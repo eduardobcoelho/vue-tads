@@ -1,5 +1,5 @@
 import { storage } from '@/plugins/firebase';
-import { IProfileUploadImage } from './types';
+import { IProfileUploadImage } from '@/types';
 import { ActionContext } from 'vuex';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
