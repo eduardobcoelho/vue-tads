@@ -26,10 +26,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, computed, reactive, defineEmits } from 'vue';
+  import { ref, reactive, defineEmits } from 'vue';
   import { useStore } from 'vuex';
-  import { IValidationsObject } from '@/types';
   import { FormInst } from 'naive-ui';
+  import { useValidations } from '@/composable';
 
   const store = useStore();
   const emit = defineEmits(['setStep']);
@@ -40,11 +40,8 @@
   const model = reactive({
     email: '',
   });
-  const validations = computed<IValidationsObject>(
-    () => store.getters.validations,
-  );
   const rules = {
-    email: [validations.value.required, validations.value.email],
+    email: useValidations('required', 'email'),
   };
   function resetLoginError() {
     if (loginError.value) loginError.value = null;

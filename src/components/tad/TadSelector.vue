@@ -22,7 +22,7 @@
   const store = useStore();
   const router = useRouter();
 
-  let TADS = computed<ITAD[]>(() => store.getters.TADS);
+  let TADS = computed<ITAD[]>(() => store.getters.getTADS);
   function goToTadView(TAD: ITAD): void {
     store.commit('setCurrentTad', TAD);
     router.push({ name: 'TAD' });

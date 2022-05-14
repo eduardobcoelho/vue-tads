@@ -18,8 +18,8 @@
   const route = useRoute();
   const naiveMessage = useMessage();
 
-  const user = computed(() => store.getters.user);
-  const notification = computed(() => store.getters.notification);
+  const user = computed(() => store.getters.getUser);
+  const notification = computed(() => store.getters.getNotification);
   watch(notification, ({ type, message }) => {
     naiveMessage[type](message);
   });

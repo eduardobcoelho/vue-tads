@@ -33,7 +33,7 @@
   const store = useStore();
   const router = useRouter();
 
-  let user = computed<IUser>(() => store.getters.user);
+  let user = computed<IUser>(() => store.getters.getUser);
   const renderIcon = (icon: Component) => {
     return () => {
       return h(

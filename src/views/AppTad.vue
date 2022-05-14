@@ -8,6 +8,6 @@
 
   const store = useStore();
   let currentTadComponentName = computed<string>(
-    () => store.getters.currentTad.component,
+    () => store.getters.getCurrentTad.component,
   );
 </script>

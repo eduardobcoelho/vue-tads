@@ -37,7 +37,7 @@
   import AppProfilePictureUploader from '@/components/Profile/AppProfilePictureUploader.vue';
 
   const store = useStore();
-  const user = computed<IUser>(() => store.getters.user);
+  const user = computed<IUser>(() => store.getters.getUser);
   const changePasswordDrawer = ref<boolean>(false);
   const newUserModel = reactive<{
     displayName: string | null;
