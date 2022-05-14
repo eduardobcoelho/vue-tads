@@ -42,18 +42,10 @@
 </template>
 
 <script lang="ts" setup>
-  import {
-    reactive,
-    ref,
-    withDefaults,
-    defineProps,
-    defineEmits,
-    computed,
-  } from 'vue';
-  import { useStore } from 'vuex';
+  import { reactive, ref, withDefaults, defineProps, defineEmits } from 'vue';
   import { User } from 'firebase/auth';
-  import { IValidationsObject } from '@/types';
   import { FormInst } from 'naive-ui';
+  import { useValidations } from '@/composable';
 
   interface IProps {
     loading: boolean;
@@ -63,7 +55,6 @@
   const props = withDefaults(defineProps<IProps>(), {
     name: '',
   });
-  const store = useStore();
   const emit = defineEmits(['submitForm', 'openDrawer']);
 
   const appProfileForm = ref<FormInst | null>(null);
@@ -71,12 +62,9 @@
     displayName: props.name,
     email: props.email,
   });
-  const validations = computed<IValidationsObject>(
-    () => store.getters.validations,
-  );
   const rules = {
-    displayName: [validations.value.required],
-    email: [validations.value.required, validations.value.email],
+    displayName: useValidations('required'),
+    email: useValidations('required', 'email'),
   };
   function openDrawer() {
     emit('openDrawer');

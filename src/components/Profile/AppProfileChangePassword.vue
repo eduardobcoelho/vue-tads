@@ -44,14 +44,11 @@
 <script setup lang="ts">
   import { ref, reactive, defineEmits, computed } from 'vue';
   import { useStore } from 'vuex';
-  import { IValidationsObject } from '@/types';
   import { FormInst } from 'naive-ui';
+  import { useValidations } from '@/composable';
 
   const store = useStore();
   const emit = defineEmits(['closeDrawer']);
-  const validations = computed<IValidationsObject>(
-    () => store.getters.validations,
-  );
   const error = ref<string>('');
   const loading = ref<boolean>(false);
   const changePasswordForm = ref<FormInst | null>(null);
@@ -64,8 +61,8 @@
     return model.password != model.passwordConfirm;
   });
   const rules = {
-    password: [validations.value.required],
-    passwordConfirm: [validations.value.required],
+    password: useValidations('required'),
+    passwordConfirm: useValidations('required'),
   };
   function closeDrawer() {
     emit('closeDrawer');
