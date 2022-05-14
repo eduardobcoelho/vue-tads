@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-  import { reactive, ref, computed, defineEmits } from 'vue';
+  import { reactive, ref, defineEmits } from 'vue';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
   import { useValidations } from '@/composable';
