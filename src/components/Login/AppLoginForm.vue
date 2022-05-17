@@ -12,6 +12,7 @@
         v-model:value="model.email"
         placeholder="Digite aqui..."
         @keyup.enter="submitForm"
+        @input="setLoginErrorFalse"
       ></n-input>
     </n-form-item>
     <n-form-item label="Senha" path="password" label-style="font-weight: bold;">
@@ -22,6 +23,7 @@
           placeholder="Digite aqui..."
           show-password-on="click"
           @keyup.enter="submitForm"
+          @input="setLoginErrorFalse"
         ></n-input>
         <span
           @click="router.push({ name: 'ForgotPassword' })"
@@ -61,6 +63,9 @@
     email: useValidations('required', 'email'),
     password: useValidations('required'),
   };
+  function setLoginErrorFalse() {
+    if (loginError.value) loginError.value = false;
+  }
   function submitForm() {
     loginForm.value?.validate((errors) => {
       if (!errors) {
