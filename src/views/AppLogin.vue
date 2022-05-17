@@ -2,38 +2,24 @@
   <div class="app-login tad-default-box">
     <h1>Login</h1>
     <div class="app-login__box">
-      <AppLoginForm @setLoginError="setLoginError"></AppLoginForm>
+      <AppLoginForm></AppLoginForm>
       <div class="app-login__btn-or">ou</div>
-      <AppLoginProviders
-        @setErrorStatus="
-          (value) => {
-            loginError = value;
-          }
-        "
-      ></AppLoginProviders>
+      <AppLoginProviders></AppLoginProviders>
       <div class="app-login__cadaster">
         Não possui uma conta?
         <span @click="router.push({ name: 'Cadaster' })">Criar conta</span>.
       </div>
-      <n-space v-show="loginError" vertical style="margin-top: 14px">
-        <n-alert type="error"> {{ loginError }} </n-alert>
-      </n-space>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
   import { useRouter } from 'vue-router';
   import AppLoginForm from '@/components/Login/AppLoginForm.vue';
   import AppLoginProviders from '@/components/Login/AppLoginProviders.vue';
 
   const router = useRouter();
-  let loginError = ref<string | null>(null);
 
-  function setLoginError(error: string) {
-    loginError.value = error;
-  }
   function verifyToken() {
     if (localStorage.getItem('token')) {
       router.push({ name: 'Home' });

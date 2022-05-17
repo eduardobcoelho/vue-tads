@@ -1,4 +1,7 @@
 <template>
+  <n-alert v-if="loginError" type="error" style="margin-top: 14px">
+    {{ loginError }}
+  </n-alert>
   <n-button
     v-for="{ provider, color } in authOptions"
     :key="provider"
@@ -19,12 +22,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { defineEmits, onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { useStore } from 'vuex';
   import { Icon } from '@vicons/utils';
   import { LogoGoogle, LogoGithub } from '@vicons/carbon';
 
-  const emit = defineEmits(['setErrorStatus']);
   const store = useStore();
 
   const authOptions = [
@@ -32,12 +34,15 @@
     { provider: 'Github', color: '#171515' },
   ];
 
+  const loginError = ref<string | null>(null);
   onMounted(() => {
-    store.dispatch('redirectResult').catch(() => emit('setErrorStatus', true));
+    store
+      .dispatch('redirectResult')
+      .catch((error) => (loginError.value = error));
   });
 
   function signIn(provider: string) {
-    emit('setErrorStatus', false);
+    loginError.value = null;
     store.dispatch('signIn', provider);
   }
 </script>

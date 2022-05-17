@@ -12,6 +12,7 @@
         v-model:value="model.email"
         placeholder="Digite aqui..."
         @keyup.enter="submitForm"
+        @input="setLoginErrorFalse"
       ></n-input>
     </n-form-item>
     <n-form-item label="Senha" path="password" label-style="font-weight: bold;">
@@ -22,6 +23,7 @@
           placeholder="Digite aqui..."
           show-password-on="click"
           @keyup.enter="submitForm"
+          @input="setLoginErrorFalse"
         ></n-input>
         <span
           @click="router.push({ name: 'ForgotPassword' })"
@@ -31,6 +33,9 @@
         </span>
       </div>
     </n-form-item>
+    <n-alert v-if="loginError" type="error" style="margin-top: 14px"
+      >{{ loginError }}
+    </n-alert>
     <div class="app-login-form__actions">
       <n-button @click="submitForm" color="black" type="primary">
         Entrar
@@ -40,15 +45,15 @@
 </template>
 
 <script setup>
-  import { reactive, ref, defineEmits } from 'vue';
+  import { reactive, ref } from 'vue';
   import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
   import { useValidations } from '@/composable';
 
-  const emit = defineEmits(['setLoginError']);
   const router = useRouter();
   const store = useStore();
 
+  const loginError = ref(null);
   const loginForm = ref(null);
   const model = reactive({
     email: '',
@@ -58,10 +63,13 @@
     email: useValidations('required', 'email'),
     password: useValidations('required'),
   };
+  function setLoginErrorFalse() {
+    if (loginError.value) loginError.value = false;
+  }
   function submitForm() {
-    emit('setLoginError', null);
     loginForm.value?.validate((errors) => {
       if (!errors) {
+        loginError.value = null;
         store
           .dispatch('signInCommom', {
             email: model.email,
@@ -75,7 +83,7 @@
               },
             });
           })
-          .catch((error) => emit('setLoginError', error));
+          .catch((error) => (loginError.value = error));
       }
     });
   }
