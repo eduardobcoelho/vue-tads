@@ -21,34 +21,12 @@ import {
 } from 'firebase/auth';
 import { ActionContext } from 'vuex';
 import { ISigninReturn, ICadasterModel, INotification } from '@/types';
-import { EAuthErrorsMessage } from '@/enums';
+import { getAuthErrorMessage } from '@/composable';
 
 let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
   GoogleAuthProvider;
 let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
   GoogleProvider;
-
-const formatErrorCode = (module: string, errorCode: string): string =>
-  errorCode.replace(`${module}/`, '').replaceAll('-', '').toUpperCase();
-
-const getAuthErrorMessage = (errorCode: string): string => {
-  switch (formatErrorCode('auth', errorCode)) {
-    case 'EMAILALREADYINUSE':
-      return EAuthErrorsMessage.EMAILALREADYINUSE;
-    case 'INVALIDEMAIL':
-      return EAuthErrorsMessage.INVALIDEMAIL;
-    case 'USERDISABLED':
-      return EAuthErrorsMessage.USERDISABLED;
-    case 'USERNOTFOUND':
-      return EAuthErrorsMessage.USERNOTFOUND;
-    case 'WRONGPASSWORD':
-      return EAuthErrorsMessage.WRONGPASSWORD;
-    case 'WEAKPASSWORD':
-      return EAuthErrorsMessage.WEAKPASSWORD;
-    default:
-      return 'Tente novamente';
-  }
-};
 
 export default {
   signUp(
