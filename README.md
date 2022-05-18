@@ -49,9 +49,8 @@ npm run lint
 
 ### Ajustes 🐛
 
-| Tipo                           | Descrição                                                              |
-| ------------------------------ | ---------------------------------------------------------------------- |
-| Bugfix                         | Dar redirect para view de login ao obter um cadastro bem-sucedido.     |
-| Bugfix                         | Remover warnings do lint.                                              |
-| Layout                         | Deixar botões dos authProviders na tela de login apenas com os ícones. |
-| Usabilidade/Prevenção de erros | Aplicar loading em todos os botões que fazem chamadas assíncronas.     |
+| Tipo                           | Descrição                                                          |
+| ------------------------------ | ------------------------------------------------------------------ |
+| Bugfix                         | Dar redirect para view de login ao obter um cadastro bem-sucedido. |
+| Bugfix                         | Remover warnings do lint.                                          |
+| Usabilidade/Prevenção de erros | Aplicar loading em todos os botões que fazem chamadas assíncronas. |

@@ -2,23 +2,29 @@
   <n-alert v-if="loginError" type="error" style="margin-top: 14px">
     {{ loginError }}
   </n-alert>
-  <n-button
-    v-for="{ provider, color } in authOptions"
-    :key="provider"
-    @click="signIn(provider.toLowerCase())"
-    :color="color"
-    class="providers-button"
-  >
-    <Icon size="32">
-      <template v-if="provider === 'Google'">
-        <LogoGoogle></LogoGoogle>
-      </template>
-      <template v-else>
-        <LogoGithub></LogoGithub>
-      </template>
-    </Icon>
-    <span>{{ provider }}</span>
-  </n-button>
+  <div class="login-providers">
+    <div
+      v-for="{ provider, color } in authOptions"
+      :key="provider"
+      class="login-providers__button"
+    >
+      <n-button
+        tertiary
+        circle
+        :color="color"
+        @click="signIn(provider.toLowerCase())"
+      >
+        <Icon size="32">
+          <template v-if="provider === 'Google'">
+            <LogoGoogle></LogoGoogle>
+          </template>
+          <template v-else>
+            <LogoGithub></LogoGithub>
+          </template>
+        </Icon>
+      </n-button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -48,12 +54,15 @@
 </script>
 
 <style lang="scss" scoped>
-  .providers-button {
-    width: 100%;
-    padding: 24px 0;
+  .login-providers {
+    margin-top: 14px;
 
-    &:not(&:nth-child(1)) {
-      margin-top: 14px;
+    &__button {
+      display: inline-flex;
+
+      &:not(&:first-child) {
+        margin-left: 8px;
+      }
     }
   }
 
