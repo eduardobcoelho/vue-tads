@@ -7,4 +7,10 @@ export default {
   ): void {
     state.notification = payload;
   },
+  setNotificationSuccessCadaster(
+    state: IStateNotification,
+    payload: boolean,
+  ): void {
+    state.notificationSuccessCadaster = payload;
+  },
 };

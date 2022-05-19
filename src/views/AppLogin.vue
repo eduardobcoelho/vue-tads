@@ -2,6 +2,15 @@
   <div class="app-login tad-default-box">
     <h1>Login</h1>
     <div class="app-login__box">
+      <n-alert
+        v-show="notificationSuccessCadaster"
+        closable
+        type="success"
+        style="margin-bottom: 14px"
+        @on-close="setNotificationSuccessCadasterFalse(0)"
+      >
+        Usuário cadastrado com sucesso!
+      </n-alert>
       <AppLoginForm></AppLoginForm>
       <div class="app-login__btn-or">ou</div>
       <AppLoginProviders></AppLoginProviders>
@@ -14,18 +23,39 @@
 </template>
 
 <script lang="ts" setup>
+  import { ref, computed, onDeactivated } from 'vue';
+  import { useStore } from 'vuex';
   import { useRouter } from 'vue-router';
   import AppLoginForm from '@/components/Login/AppLoginForm.vue';
   import AppLoginProviders from '@/components/Login/AppLoginProviders.vue';
 
+  const store = useStore();
   const router = useRouter();
 
-  function verifyToken() {
+  const notificationSuccessCadaster = computed<boolean>(
+    () => store.getters.getNotificationSuccessCadaster,
+  );
+
+  const debounce = ref<number | null>(null);
+  function setNotificationSuccessCadasterFalse(time: number): void {
+    if (notificationSuccessCadaster.value) {
+      clearDebounce();
+      debounce.value = window.setTimeout(() => {
+        store.commit('setNotificationSuccessCadaster', false);
+      }, time);
+    }
+  }
+  function clearDebounce(): void {
+    if (debounce.value) clearTimeout(debounce.value);
+  }
+  function verifyToken(): void {
     if (localStorage.getItem('token')) {
       router.push({ name: 'Home' });
     }
   }
   verifyToken();
+  setNotificationSuccessCadasterFalse(4000);
+  onDeactivated(() => clearDebounce());
 </script>
 
 <style lang="scss" scoped>
