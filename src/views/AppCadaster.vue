@@ -61,21 +61,25 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
   import { reactive, computed, ref } from 'vue';
   import { useStore } from 'vuex';
+  import { useRouter } from 'vue-router';
   import { useValidations } from '@/composable';
+  import { FormInst } from 'naive-ui';
+  import { ICadasterModel } from '@/types';
 
   const store = useStore();
+  const router = useRouter();
 
-  let cadasterError = ref(null);
-  const cadasterForm = ref(null);
-  const model = reactive({
+  const cadasterError = ref<string | null>(null);
+  const cadasterForm = ref<FormInst | null>(null);
+  const model = reactive<ICadasterModel>({
     email: '',
     password: '',
     confirmPassword: '',
   });
-  const differentPasswords = computed(() => {
+  const differentPasswords = computed<boolean>(() => {
     if (!model.password || !model.confirmPassword) return false;
     return model.password != model.confirmPassword;
   });
@@ -85,21 +89,17 @@
     confirmPassword: useValidations('required'),
   };
 
-  function signUp() {
+  function signUp(): void {
     if (cadasterError.value) cadasterError.value = null;
     cadasterForm.value?.validate((errors) => {
       if (!errors) {
         store
           .dispatch('signUp', model)
-          .then((result) => {
-            store.commit('setUserData', {
-              result,
-              credential: {
-                accessToken: result.user.accessToken,
-              },
-            });
+          .then(() => {
+            store.commit('setNotificationSuccessCadaster', true);
+            router.push({ name: 'Login' });
           })
-          .catch((error) => (cadasterError.value = error));
+          .catch((error: string) => (cadasterError.value = error));
       }
     });
   }
