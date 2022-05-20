@@ -51,6 +51,5 @@ npm run lint
 
 | Tipo                           | Descrição                                                          |
 | ------------------------------ | ------------------------------------------------------------------ |
-| Bugfix                         | Dar redirect para view de login ao obter um cadastro bem-sucedido. |
 | Bugfix                         | Remover warnings do lint.                                          |
 | Usabilidade/Prevenção de erros | Aplicar loading em todos os botões que fazem chamadas assíncronas. |
