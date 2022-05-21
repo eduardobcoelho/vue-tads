@@ -37,7 +37,12 @@
       >{{ loginError }}
     </n-alert>
     <div class="app-login-form__actions">
-      <n-button @click="submitForm" color="black" type="primary">
+      <n-button
+        color="black"
+        type="primary"
+        :loading="loading"
+        @click="submitForm"
+      >
         Entrar
       </n-button>
     </div>
@@ -53,6 +58,7 @@
   const router = useRouter();
   const store = useStore();
 
+  const loading = ref(false);
   const loginError = ref(null);
   const loginForm = ref(null);
   const model = reactive({
@@ -69,6 +75,7 @@
   function submitForm() {
     loginForm.value?.validate((errors) => {
       if (!errors) {
+        loading.value = true;
         loginError.value = null;
         store
           .dispatch('signInCommom', {
@@ -83,7 +90,8 @@
               },
             });
           })
-          .catch((error) => (loginError.value = error));
+          .catch((error) => (loginError.value = error))
+          .finally(() => (loading.value = false));
       }
     });
   }
