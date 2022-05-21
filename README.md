@@ -49,7 +49,6 @@ npm run lint
 
 ### Ajustes 🐛
 
-| Tipo                           | Descrição                                                          |
-| ------------------------------ | ------------------------------------------------------------------ |
-| Bugfix                         | Remover warnings do lint.                                          |
-| Usabilidade/Prevenção de erros | Aplicar loading em todos os botões que fazem chamadas assíncronas. |
+| Tipo   | Descrição                 |
+| ------ | ------------------------- |
+| Bugfix | Remover warnings do lint. |
