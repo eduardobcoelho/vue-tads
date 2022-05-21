@@ -50,10 +50,11 @@
         <div class="app-cadaster__actions">
           <n-button
             type="primary"
+            :loading="loading"
             :disabled="differentPasswords"
             @click="signUp"
           >
-            Cadastrar
+            <span>Cadastrar</span>
           </n-button>
         </div>
       </n-form>
@@ -72,6 +73,7 @@
   const store = useStore();
   const router = useRouter();
 
+  const loading = ref<boolean>(false);
   const cadasterError = ref<string | null>(null);
   const cadasterForm = ref<FormInst | null>(null);
   const model = reactive<ICadasterModel>({
@@ -93,13 +95,15 @@
     if (cadasterError.value) cadasterError.value = null;
     cadasterForm.value?.validate((errors) => {
       if (!errors) {
+        loading.value = true;
         store
           .dispatch('signUp', model)
           .then(() => {
             store.commit('setNotificationSuccessCadaster', true);
             router.push({ name: 'Login' });
           })
-          .catch((error: string) => (cadasterError.value = error));
+          .catch((error: string) => (cadasterError.value = error))
+          .finally(() => (loading.value = false));
       }
     });
   }
@@ -123,6 +127,10 @@
 
     &__actions {
       text-align: center;
+
+      span {
+        font-weight: bold;
+      }
     }
   }
 </style>
