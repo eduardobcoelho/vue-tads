@@ -1,4 +1,4 @@
-import { UserCredential, OAuthCredential } from 'firebase/auth';
+import { UserCredential, OAuthCredential, User } from 'firebase/auth';
 
 interface IAccessToken {
   accessToken: string;
@@ -24,4 +24,10 @@ export interface ICadasterModel {
   email: string;
   password: string;
   confirmPassword: string;
+}
+
+export interface ISignInProviderResolve {
+  credential: OAuthCredential | null;
+  token?: string;
+  user: User;
 }
