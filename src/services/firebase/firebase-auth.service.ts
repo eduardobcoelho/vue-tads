@@ -1,7 +1,8 @@
 import {
+  User,
+  UserCredential,
   GithubAuthProvider,
   GoogleAuthProvider,
-  UserCredential,
   AuthError,
   browserLocalPersistence,
   getAuth,
@@ -9,6 +10,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
+  sendPasswordResetEmail,
+  updatePassword,
+  updateProfile,
+  signOut,
 } from 'firebase/auth';
 import { FirebaseAppService } from './firebase-app.service';
 import { ICadasterModel, ISignInProviderResolve } from '@/types';
@@ -60,6 +65,44 @@ export class FirebaseAuthService extends FirebaseAppService {
         })
         .catch(({ code }: AuthError) => reject(code));
     });
+  }
+  sendEmailResetPassword(email: string): Promise<void> {
+    return new Promise((resolve, reject) =>
+      sendPasswordResetEmail(getAuth(), email)
+        .then((resp) => resolve(resp))
+        .catch(({ code }: AuthError) => reject(code)),
+    );
+  }
+  updateUserPassword(password: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const { currentUser } = getAuth();
+      if (currentUser)
+        updatePassword(currentUser, password)
+          .then((resp) => resolve(resp))
+          .catch(({ code }: AuthError) => reject(code));
+    });
+  }
+  updateUserProfile(userData: Partial<User>): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const { currentUser } = getAuth();
+      if (currentUser) {
+        updateProfile(currentUser, userData)
+          .then((resp) => resolve(resp))
+          .catch(({ code }) => reject(code));
+      } else {
+        return Promise.reject('Usuário não-autorizado!');
+      }
+    });
+  }
+  logout(): Promise<boolean> {
+    return new Promise((resolve, reject) =>
+      signOut(getAuth())
+        .then(() => {
+          localStorage.clear();
+          resolve(true);
+        })
+        .catch(() => reject(false)),
+    );
   }
 }
 
