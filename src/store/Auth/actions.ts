@@ -2,9 +2,7 @@ import router from '@/router';
 import { GoogleProvider, GithubProvider } from '@/plugins/firebase';
 import {
   getAuth,
-  createUserWithEmailAndPassword,
   signInWithRedirect,
-  signInWithEmailAndPassword,
   updatePassword,
   getRedirectResult,
   GoogleAuthProvider,
@@ -23,6 +21,8 @@ import { ActionContext } from 'vuex';
 import { ISigninReturn, ICadasterModel, INotification } from '@/types';
 import { getAuthErrorMessage } from '@/composable';
 
+import { FirebaseAuthService } from '@/services';
+
 let authProvider: typeof GoogleAuthProvider | typeof GithubAuthProvider =
   GoogleAuthProvider;
 let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
@@ -31,33 +31,25 @@ let authProviderInstance: GoogleAuthProvider | GithubAuthProvider =
 export default {
   signUp(
     _: ActionContext<void, void>,
-    { email, password }: ICadasterModel,
+    userData: ICadasterModel,
   ): Promise<UserCredential> {
-    return new Promise((resolve, reject) => {
-      createUserWithEmailAndPassword(getAuth(), email, password)
-        .then((result: UserCredential) => {
-          resolve(result);
-        })
-        .catch((error: AuthError) => {
-          reject(getAuthErrorMessage(error.code));
-        });
-    });
+    return new Promise((resolve, reject) =>
+      FirebaseAuthService.signUp(userData)
+        .then((resp: UserCredential) => resolve(resp))
+        .catch((err: string) => reject(err)),
+    );
   },
   signInCommom(
     _: ActionContext<void, void>,
-    { email, password }: ICadasterModel,
+    userData: ICadasterModel,
   ): Promise<UserCredential> {
-    return new Promise((resolve, reject) => {
-      signInWithEmailAndPassword(getAuth(), email, password)
-        .then((result: UserCredential) => {
-          resolve(result);
-        })
-        .catch((error: AuthError) => {
-          reject(getAuthErrorMessage(error.code));
-        });
-    });
+    return new Promise((resolve, reject) =>
+      FirebaseAuthService.signInCommon(userData)
+        .then((resp: UserCredential) => resolve(resp))
+        .catch((err: string) => reject(err)),
+    );
   },
-  signIn(_: ActionContext<void, void>, provider = 'google'): void {
+  signInProvider(_: ActionContext<void, void>, provider = 'google'): void {
     switch (provider) {
       case 'google':
         authProvider = GoogleAuthProvider;

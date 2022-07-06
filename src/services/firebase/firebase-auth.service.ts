@@ -16,7 +16,7 @@ import {
   signOut,
 } from 'firebase/auth';
 import { FirebaseAppService } from './firebase-app.service';
-import { ICadasterModel, ISignInProviderResolve } from '@/types';
+import { ICadasterModel, ISigninReturn } from '@/types';
 import { EAuthErrorsMessage } from '@/enums';
 
 export class FirebaseAuthService extends FirebaseAppService {
@@ -68,7 +68,7 @@ export class FirebaseAuthService extends FirebaseAppService {
         .catch(({ code }) => reject(this.getAuthErrorMessage(code))),
     );
   }
-  signInProvider(provider: string): Promise<ISignInProviderResolve> {
+  signInProvider(provider: string): Promise<ISigninReturn> {
     const authProvider =
       provider === 'google' ? GoogleAuthProvider : GithubAuthProvider;
     const authProviderInstance =
@@ -77,12 +77,9 @@ export class FirebaseAuthService extends FirebaseAppService {
       signInWithPopup(getAuth(), authProviderInstance)
         .then((result) => {
           const credential = authProvider.credentialFromResult(result);
-          const token = credential?.accessToken;
-          const user = result.user;
           resolve({
+            result,
             credential,
-            token,
-            user,
           });
         })
         .catch(({ code }: AuthError) => reject(this.getAuthErrorMessage(code)));

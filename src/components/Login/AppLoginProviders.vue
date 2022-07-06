@@ -49,7 +49,7 @@
 
   function signIn(provider: string) {
     loginError.value = null;
-    store.dispatch('signIn', provider);
+    store.dispatch('signInProvider', provider);
   }
 </script>
 

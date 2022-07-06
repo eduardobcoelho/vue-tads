@@ -25,9 +25,3 @@ export interface ICadasterModel {
   password: string;
   confirmPassword: string;
 }
-
-export interface ISignInProviderResolve {
-  credential: OAuthCredential | null;
-  token?: string;
-  user: User;
-}

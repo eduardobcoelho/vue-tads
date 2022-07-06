@@ -1,9 +1,5 @@
-import firebaseAppServiceInstance from './firebase-app.service';
-import firebaseAuthServiceInstance from './firebase-auth.service';
-import firebaseStorageServiceInstance from './firebase-storage.service';
+import FirebaseAppService from './firebase-app.service';
+import FirebaseAuthService from './firebase-auth.service';
+import FirebaseStorageService from './firebase-storage.service';
 
-export {
-  firebaseAppServiceInstance,
-  firebaseAuthServiceInstance,
-  firebaseStorageServiceInstance,
-};
+export { FirebaseAppService, FirebaseAuthService, FirebaseStorageService };
